@@ -13,17 +13,15 @@ public class Board {
     public void initialization(){
         for(int i=0; i<=this.size; i++) {
             for (int j = 0; j <= this.size;j++){
-                this.board[i][j] = new Stones();
+                this.board[i][j] = new Stones(' ');
             }
         }
     }
 
     public void printBoard(){
         // todo: validate if this still works
-        String border = "";
-        for(int i=0; i<=this.size * 3; i++){
-            border += "_";
-        }
+        String borderChar = "_";
+        String border = borderChar.repeat(this.size*3);
         System.out.println(border);
 
         for(int i=0; i<=this.size; i++) {
