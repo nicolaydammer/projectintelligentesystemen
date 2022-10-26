@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.*;
 
 public class ClientConnectionController {
-    public void connection(String hostName, int portNumber) throws IOException {
+    public void connection(String hostName, int portNumber, TicTacToeMakeTurn makeTurn) {
 
         try (
                 Socket kkSocket = new Socket(hostName, portNumber);
@@ -18,9 +18,15 @@ public class ClientConnectionController {
             String fromUser;
 
             while ((fromServer = in.readLine()) != null) {
-                System.out.println("Server: " + fromServer);
-                if (fromServer.equals("Bye."))
+                String[] splittedString = fromServer.split(" ", 3);
+
+                if (splittedString[1].equals("GAME")) {
+                    makeTurn.callback(splittedString);
+                }
+
+                if (fromServer.equals("Bye.")) {
                     break;
+                }
 
                 fromUser = stdIn.readLine();
                 if (fromUser != null) {
