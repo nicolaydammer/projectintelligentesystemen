@@ -7,7 +7,7 @@ public class Board {
     public Board(int size) {
         this.size = size;
         this.board =  new Stones[size][size];
-        initialization();
+//        initialization();
     }
 
     public void initialization(){
