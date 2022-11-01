@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.GamePickerController">
+   <children>
+      <Button layoutX="273.0" layoutY="276.0" mnemonicParsing="false" onAction="#onSubmit" text="Start" />
+      <Separator layoutX="195.0" layoutY="261.0" prefWidth="200.0" />
+      <TextField fx:id="name" layoutX="206.0" layoutY="61.0" onAction="#onSubmit" />
+      <ComboBox fx:id="gameType" layoutX="205.0" layoutY="125.0" prefWidth="150.0" />
+      <Label layoutX="204.0" layoutY="44.0" prefHeight="17.0" prefWidth="33.0" text="Naam" />
+      <Label layoutX="206.0" layoutY="108.0" text="Kies je game" />
+      <ComboBox fx:id="needsConnection" layoutX="205.0" layoutY="196.0" prefWidth="150.0" />
+      <Label layoutX="206.0" layoutY="179.0" text="Online of lokaal?" />
+   </children>
+</Pane>

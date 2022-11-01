@@ -1,29 +1,27 @@
-package src.main.java.com.example.demo;
+package com.example.demo;
 
 public class Board {
-    private int size;
-    private char[][] board;
+    private final int size;
+    private final Stones[][] board;
 
-    public Board(int size, char[][] board) {
+    public Board(int size) {
         this.size = size;
-        this.board = board;
-        board =  new char[size][size];
-        initialization();
+        this.board =  new Stones[size][size];
+//        initialization();
     }
 
     public void initialization(){
         for(int i=0; i<=this.size; i++) {
             for (int j = 0; j <= this.size;j++){
-                this.board[i][j] = '-';
+                this.board[i][j] = new Stones(' ');
             }
         }
     }
 
     public void printBoard(){
-        String border = "";
-        for(int i=0; i<=this.size * 3; i++){
-            border += "_";
-        }
+        // todo: validate if this still works
+        String borderChar = "_";
+        String border = borderChar.repeat(this.size*3);
         System.out.println(border);
 
         for(int i=0; i<=this.size; i++) {
@@ -39,11 +37,8 @@ public class Board {
     }
 
     public int getSize() {
-        return size;
+        return this.size;
     }
 
-    public void setSize(int size) {
-        this.size = size;
-    }
-
+    public Stones[][] getBoard() {return this.board; }
 }
