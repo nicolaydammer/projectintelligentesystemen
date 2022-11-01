@@ -1,18 +1,19 @@
 package com.example.demo;
 
-public class Board {
+import javafx.fxml.Initializable;
+
+public class Board implements Initializable {
     private final int size;
     private final Stones[][] board;
 
     public Board(int size) {
         this.size = size;
         this.board =  new Stones[size][size];
-//        initialization();
     }
 
     public void initialization(){
-        for(int i=0; i<=this.size; i++) {
-            for (int j = 0; j <= this.size;j++){
+        for(int i=0; i < this.size; i++) {
+            for (int j = 0; j < this.size;j++){
                 this.board[i][j] = new Stones(' ');
             }
         }
