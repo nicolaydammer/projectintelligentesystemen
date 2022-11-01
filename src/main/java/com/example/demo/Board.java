@@ -41,4 +41,22 @@ public class Board {
     }
 
     public Stones[][] getBoard() {return this.board; }
+
+    private boolean isEmptyPlace(int i, int j) {
+        return this.board[i][j].getValue() == ' ';
+    }
+
+    public int pieceCounter(){
+        int counter = 0;
+        for(int i=0; i<this.size; i++) {
+
+            for (int j = 0; j < this.size;j++){
+                if(!isEmptyPlace(i,j)){
+                    counter++;
+                }
+            }
+        }
+        //System.out.println("counted " + counter + "pieces on the board");
+        return counter;
+    }
 }
