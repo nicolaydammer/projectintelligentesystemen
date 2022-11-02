@@ -4,37 +4,58 @@ import java.io.*;
 import java.net.*;
 
 public class ClientConnectionController {
-    public void connection(String hostName, int portNumber) throws IOException {
+    // Initialise and get the required settings and variables.
+    Settings settings = new Settings();
+    String hostName = settings.getHostName();
+    int portNumber = settings.getPort();
+    String fromServer;
+    String fromUser;
+    private Socket gameServerSocket;
+    private PrintWriter out;
+    private BufferedReader in;
+    private BufferedReader stdIn;
 
-        try (
-                Socket kkSocket = new Socket(hostName, portNumber);
-                PrintWriter out = new PrintWriter(kkSocket.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(
-                        new InputStreamReader(kkSocket.getInputStream()));
-        ) {
-            BufferedReader stdIn =
-                    new BufferedReader(new InputStreamReader(System.in));
-            String fromServer;
-            String fromUser;
 
-            while ((fromServer = in.readLine()) != null) {
-                System.out.println("Server: " + fromServer);
-                if (fromServer.equals("Bye."))
-                    break;
+    public void startConnection() throws IOException {
 
-                fromUser = stdIn.readLine();
-                if (fromUser != null) {
-                    System.out.println("Client: " + fromUser);
-                    out.println(fromUser);
-                }
-            }
-        } catch (UnknownHostException e) {
-            System.err.println("Don't know about host " + hostName);
-            System.exit(1);
-        } catch (IOException e) {
-            System.err.println("Couldn't get I/O for the connection to " +
-                    hostName);
-            System.exit(1);
+        // Open the sockets and make connection to the server.
+        gameServerSocket = new Socket(hostName, portNumber);
+        out = new PrintWriter(gameServerSocket.getOutputStream(), true);
+        in = new BufferedReader(new InputStreamReader(gameServerSocket.getInputStream()));
+        stdIn = new BufferedReader(new InputStreamReader(System.in));
+
+        // If there is a response from the server, display it.
+        if ((fromServer = in.readLine()) != null) {
+            System.out.println("Server: " + fromServer);
         }
+    }
+
+    public void stopConnection() {
+        System.out.println("Connection closed");
+        System.exit(1);
+    }
+
+    public String sendMessage(String message) throws IOException {
+        // Send a message to the server, and return the response given from the server.
+        out.println(message);
+        String response = stdIn.readLine();
+        return response;
+    }
+
+    public void sendStartData() throws IOException {
+        // Get the playername and gametype from shared data, so we can communicate to the server who we are and what we want to play,
+        SharedData sharedData = SharedData.getInstance();
+        out.println("login " + sharedData.getPlayer());
+        System.out.println(stdIn.readLine());
+        out.println("subscribe " + sharedData.getGameType());
+        System.out.println(stdIn.readLine());
+    }
+
+    public static void main(String[] args) throws IOException {
+        ClientConnectionController connection = new ClientConnectionController();
+
+        // Start the connection and send the initial needed data.
+        connection.startConnection();
+        connection.sendStartData();
     }
 }
