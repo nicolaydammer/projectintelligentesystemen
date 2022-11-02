@@ -46,8 +46,8 @@ public class ClientConnectionController {
         // Get the playername and gametype from shared data, so we can communicate to the server who we are and what we want to play,
         SharedData sharedData = SharedData.getInstance();
         out.println("login " + sharedData.getPlayer().getName());
-        System.out.println(stdIn.readLine());
-        //out.println("subscribe " + sharedData.getGameType());
+//        System.out.println(stdIn.readLine());
+        out.println("subscribe " + sharedData.getGameType());
         //System.out.println(stdIn.readLine());
     }
 
