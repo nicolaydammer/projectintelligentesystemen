@@ -6,10 +6,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class TicTacToeController implements Initializable {
     private Stones stone;
@@ -39,45 +38,107 @@ public class TicTacToeController implements Initializable {
     private Text winnerText;
 
     private int playerTurn = 0;
+    private String symbolPlayer;
+    private String symbolOpponent;
 
+    private SharedData sharedData = SharedData.getInstance();
     ArrayList<Button> buttons;
+
+    public TicTacToeController(Map map) throws IOException {
+        if(sharedData.hasConnection()){
+            ClientConnectionController connection = new ClientConnectionController();
+
+            // Start the connection and send the initial needed data.
+            connection.startConnection();
+            String response = connection.sendStartData();
+            Map<String, String> retMap = new Gson().fromJson(jsonString, new TypeToken<HashMap<String, String>>() {}.getType());
+
+            String playerToMove = response.split(" ", 4)[3].;
+
+
+            //todo: code to get game info from server
+            if(sharedData.getPlayer().getName().equals(retMap.get("PLAYERTOMOVE"))){
+                symbolPlayer = "X";
+                symbolOpponent = "O";
+
+                while( !connection.getMessage.contains("SVR GAME WIN") || !connection.getMessage.contains("SVR GAME LOSS") || !connection.getMessage.contains("SVR GAME DRAW")){
+
+                    if(response.contains("SVR GAME YOURTURN")){
+                        int move = makeMove(sharedData.hasConnection(), symbolPlayer, field);
+                        response = connection.sendMessage("move " + move);
+                        updateUI();
+                        //todo: code to give move back to server
+                    } else{
+                        String move = map.get("MOVE"); // get move opponent from server
+                        makeMove(sharedData.hasConnection(), symbolOpponent, field); // update board with opponent move
+                    }
+                }
+                s
+            }else{
+                symbolPlayer = "O";
+                symbolOpponent = "X";
+                while((fromServer = in.readline()) != null){
+                    if(fromServer.equals("SVR GAME YOURTURN")){
+                        int move = makeMove(sharedData.hasConnection(), symbolPlayer, field);
+                        //todo: code to give move back to server
+                    } else{
+                        String move = map.get("MOVE"); // get move opponent from server
+                        makeMove(sharedData.hasConnection(), symbolOpponent, field); // update board with opponent move
+                    }
+                    updateUI();
+                }
+            }
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         buttons = new ArrayList<>(Arrays.asList(button1,button2,button3,button4,button5,button6,button7,button8,button9));
         buttons.forEach(button ->{
-            setUpButton(button);
+//            setUpButton(button);
             button.setFocusTraversable(false);
         });
     }
 
+     public void updateUI() {
+         int count = 0;
+         for (int i = 1; i < field.getSize(); i++) {
+             for (int j = 0; j < field.getSize(); j++) {
+                 count++;
+                 setPlayerSymbol(buttons.get(count), field[i][j]);
+             }
+         }
+     }
     @FXML
     void restartGame(ActionEvent event){
         buttons.forEach(this::resetButton);
         winnerText.setText("TicTacToe");
     }
+
     public void resetButton(Button button){
         button.setDisable(false);
         button.setText("");
     }
 
-    public void setUpButton(Button button){
-        button.setOnMouseClicked(mouseEvent -> {
-            setPlayerSymbol(button);
-            button.setDisable(true);
-            checkIfGameIsOver();
-        });
-    }
+//    public void setUpButton(Button button){
+//        button.setOnMouseClicked(mouseEvent -> {
+//            setPlayerSymbol(button);
+//            button.setDisable(true);
+//            checkIfGameIsOver();
+//        });
+//    }
 
-    public void setPlayerSymbol(Button button){
-        if(playerTurn % 2 == 0){ // X starts always and is therefore always when playerTurn is even
-            button.setText("X");
-            playerTurn = 1;
-        } else{
-            button.setText("O");
-            playerTurn = 0;
-        }
-    }
+    public void setPlayerSymbol(Button button, String symbol){
+              button.setText(symbol);
+          }
+//        if(playerTurn % 2 == 0){ // X starts always and is therefore always when playerTurn is even
+//            button.setText("X");
+//            playerTurn = 1;
+//        } else{
+//            button.setText("O");
+//            playerTurn = 0;
+//        }
+//    }
 
     public void checkIfGameIsOver(){
         for (int i = 0; i<8; i++){
