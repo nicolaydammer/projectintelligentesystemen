@@ -6,14 +6,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
-public class TicTacToeController implements Initializable {
+public class TicTacToeController {
     private Stones stone;
-    private final Board field =  new Board(3);
+    private final Board field = new Board(3);
 
     // for 2 humans playing
     @FXML
@@ -41,27 +42,39 @@ public class TicTacToeController implements Initializable {
     private int playerTurn = 0;
 
     ArrayList<Button> buttons;
+    ClientConnectionController controller;
+    SharedData sharedData = SharedData.getInstance();
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
-        buttons = new ArrayList<>(Arrays.asList(button1,button2,button3,button4,button5,button6,button7,button8,button9));
-        buttons.forEach(button ->{
+    public void initialize() {
+        if (sharedData.hasConnection()) {
+            controller = new ClientConnectionController();
+            try {
+                controller.startConnection();
+                controller.sendStartData();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        buttons = new ArrayList<>(Arrays.asList(button1, button2, button3, button4, button5, button6, button7, button8, button9));
+        buttons.forEach(button -> {
             setUpButton(button);
             button.setFocusTraversable(false);
         });
     }
 
     @FXML
-    void restartGame(ActionEvent event){
+    void restartGame(ActionEvent event) {
         buttons.forEach(this::resetButton);
         winnerText.setText("TicTacToe");
     }
-    public void resetButton(Button button){
+
+    public void resetButton(Button button) {
         button.setDisable(false);
         button.setText("");
     }
 
-    public void setUpButton(Button button){
+    public void setUpButton(Button button) {
         button.setOnMouseClicked(mouseEvent -> {
             setPlayerSymbol(button);
             button.setDisable(true);
@@ -69,18 +82,18 @@ public class TicTacToeController implements Initializable {
         });
     }
 
-    public void setPlayerSymbol(Button button){
-        if(playerTurn % 2 == 0){ // X starts always and is therefore always when playerTurn is even
+    public void setPlayerSymbol(Button button) {
+        if (playerTurn % 2 == 0) { // X starts always and is therefore always when playerTurn is even
             button.setText("X");
             playerTurn = 1;
-        } else{
+        } else {
             button.setText("O");
             playerTurn = 0;
         }
     }
 
-    public void checkIfGameIsOver(){
-        for (int i = 0; i<8; i++){
+    public void checkIfGameIsOver() {
+        for (int i = 0; i < 8; i++) {
             String line;
             switch (i) {
                 case 0:
@@ -113,19 +126,18 @@ public class TicTacToeController implements Initializable {
             }
 
             // X winner
-            if(line.equals("XXX")){
+            if (line.equals("XXX")) {
                 winnerText.setText("X won!");
             }
 
             // O winner
-            else if(line.equals("OOO")){
+            else if (line.equals("OOO")) {
                 winnerText.setText("O won!");
             }
         }
 
 
     }
-
 
 
 }

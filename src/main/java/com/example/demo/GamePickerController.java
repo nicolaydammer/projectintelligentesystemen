@@ -56,6 +56,9 @@ public class GamePickerController implements Initializable {
                 stage.setScene(scene);
                 stage.show();
 
+                TicTacToeController controller = new FXMLLoader(getClass().getResource("/fxml/TicTacToe.fxml")).getController();
+                controller.initialize();
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
