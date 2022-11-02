@@ -42,15 +42,19 @@ public class ClientConnectionController {
         return response;
     }
 
-    public void sendStartData() throws IOException {
+    public String sendStartData() throws IOException {
         // Get the playername and gametype from shared data, so we can communicate to the server who we are and what we want to play,
         SharedData sharedData = SharedData.getInstance();
         out.println("login " + sharedData.getPlayer());
         System.out.println(stdIn.readLine());
         out.println("subscribe " + sharedData.getGameType());
-        System.out.println(stdIn.readLine());
+
+        String response = stdIn.readLine();
+        System.out.println(response);
+        return response;
     }
 
+    // todo: public String getMessage() throws IOException (gets back message from server without sending message)
     public static void main(String[] args) throws IOException {
         ClientConnectionController connection = new ClientConnectionController();
 

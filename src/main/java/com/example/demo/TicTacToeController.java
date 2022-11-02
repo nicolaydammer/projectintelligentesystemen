@@ -4,16 +4,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class TicTacToeController implements Initializable {
     private Stones stone;
@@ -49,23 +44,36 @@ public class TicTacToeController implements Initializable {
     private SharedData sharedData = SharedData.getInstance();
     ArrayList<Button> buttons;
 
-    public TicTacToeController(Map map){
+    public TicTacToeController(Map map) throws IOException {
         if(sharedData.hasConnection()){
+            ClientConnectionController connection = new ClientConnectionController();
+
+            // Start the connection and send the initial needed data.
+            connection.startConnection();
+            String response = connection.sendStartData();
+            Map<String, String> retMap = new Gson().fromJson(jsonString, new TypeToken<HashMap<String, String>>() {}.getType());
+
+            String playerToMove = response.split(" ", 4)[3].;
+
+
             //todo: code to get game info from server
-            String fromServer;
-            if(sharedData.getPlayer().getName().equals(map.get("PLAYERTOMOVE"))){
+            if(sharedData.getPlayer().getName().equals(retMap.get("PLAYERTOMOVE"))){
                 symbolPlayer = "X";
                 symbolOpponent = "O";
-                while((fromServer = in.readline()) != null){
-                    if(fromServer.equals("SVR GAME YOURTURN")){
+
+                while( !connection.getMessage.contains("SVR GAME WIN") || !connection.getMessage.contains("SVR GAME LOSS") || !connection.getMessage.contains("SVR GAME DRAW")){
+
+                    if(response.contains("SVR GAME YOURTURN")){
                         int move = makeMove(sharedData.hasConnection(), symbolPlayer, field);
+                        response = connection.sendMessage("move " + move);
+                        updateUI();
                         //todo: code to give move back to server
                     } else{
                         String move = map.get("MOVE"); // get move opponent from server
                         makeMove(sharedData.hasConnection(), symbolOpponent, field); // update board with opponent move
                     }
-                    updateUI();
                 }
+                s
             }else{
                 symbolPlayer = "O";
                 symbolOpponent = "X";
