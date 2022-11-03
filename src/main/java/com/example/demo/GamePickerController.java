@@ -39,25 +39,25 @@ public class GamePickerController implements Initializable {
             player = new Player("Unknown Player");
         }
 
+        SharedData sharedData = SharedData.getInstance();
+
+        sharedData.setPlayer(player);
+        sharedData.setGameType("tic tac toe");
+        sharedData.setHasConnection(needsConnection.getValue().equals("Online"));
+
         if (gameType.getValue().equals(bke)) {
             Node node = (Node) actionEvent.getSource();
             Stage stage = (Stage) node.getScene().getWindow();
             stage.close();
 
             try {
-                Parent root = FXMLLoader.load(GameApplication.class.getResource("/fxml/TicTacToe.fxml"));
-                SharedData sharedData = SharedData.getInstance();
+                FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("/fxml/TicTacToe.fxml"));
+                fxmlLoader.setController(new TicTacToeController());
 
-                sharedData.setPlayer(player);
-                sharedData.setGameType("bke");
-                sharedData.setHasConnection(needsConnection.getValue().equals("Online"));
+                Parent root = fxmlLoader.load();
 
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
+                stage.setScene(new Scene(root, 800, 400));
                 stage.show();
-
-                TicTacToeController controller = new FXMLLoader(getClass().getResource("/fxml/TicTacToe.fxml")).getController();
-                controller.initialize();
 
             } catch (IOException e) {
                 throw new RuntimeException(e);

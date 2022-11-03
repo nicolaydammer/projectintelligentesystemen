@@ -39,6 +39,9 @@ public class TicTacToeController {
     @FXML
     private Text winnerText;
 
+    @FXML
+    private Button restart;
+
     private int playerTurn = 0;
 
     ArrayList<Button> buttons;
@@ -61,9 +64,12 @@ public class TicTacToeController {
             setUpButton(button);
             button.setFocusTraversable(false);
         });
+
+        restart.setOnMouseClicked(e -> {
+            //todo: implement restart
+        });
     }
 
-    @FXML
     void restartGame(ActionEvent event) {
         buttons.forEach(this::resetButton);
         winnerText.setText("TicTacToe");
