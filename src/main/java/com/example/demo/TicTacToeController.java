@@ -54,6 +54,15 @@ public class TicTacToeController {
             try {
                 controller.startConnection();
                 controller.sendStartData();
+
+                // test method !!!!THIS IS NOT WORKING PROPERLY!!!
+                if(controller.checkStartingPlayer()) {
+                    controller.sendMessage("move 1");
+                } else {
+                    System.out.println(controller.checkTurn());
+                }
+
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

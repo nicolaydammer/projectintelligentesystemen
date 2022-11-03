@@ -5,6 +5,7 @@ import java.net.*;
 
 public class ClientConnectionController {
     // Initialise and get the required settings and variables.
+    SharedData sharedData = SharedData.getInstance();
     Settings settings = new Settings();
     String hostName = settings.getHostName();
     int portNumber = settings.getPort();
@@ -66,13 +67,35 @@ public class ClientConnectionController {
      * @return response (String) contain the response from the server.
      * @throws IOException
      */
-    public String sendStartData() throws IOException {
+    public void sendStartData() throws IOException {
         // Get the playername and gametype from shared data, so we can communicate to the server who we are and what we want to play,
-        SharedData sharedData = SharedData.getInstance();
         out.println("login " + sharedData.getPlayer().getName());
 //        System.out.println(stdIn.readLine());
         out.println("subscribe " + sharedData.getGameType());
         //System.out.println(stdIn.readLine());
+    }
+
+    /**
+     * Function that checks who starts first.
+     * @return boolean
+     * @throws IOException
+     */
+    public boolean checkStartingPlayer() throws IOException {
+
+        while (true) {
+            fromServer = in.readLine();
+            System.out.println("Server: " + fromServer);
+
+            if (fromServer.contains("SVR")) {
+                String[] part = fromServer.split("\"", 3);
+                System.out.println("test in checkStartingPlayer: " + part[1]);
+                if (part[1].equals(sharedData.getPlayer().getName())) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
     }
 
     /**
@@ -81,15 +104,22 @@ public class ClientConnectionController {
      * @return response (String) contains the response form the server.
      * @throws IOException
      */
-    public String getMessage() throws IOException {
+    public String checkTurn() throws IOException {
 
-        while ((fromServer = in.readLine()) != null) {
-            System.out.println("Server: " + fromServer);
-            return fromServer;
+        while(true) {
+            fromServer = in.readLine();
+            String[] part = fromServer.split("\"", 3);
+
+            if(part[2].contains("MOVE:")) {
+                return part[2].substring(2, part[2].lastIndexOf(','));
+            }
+            if(fromServer.contains("YOURTURN")) {
+                return "Jij moet een zet doen!";
+            }
+//            if(fromServer.contains("SVR GAME LOSS") || fromServer.contains(("SVR GAME WIN"))) {
+//                return sendMessage("bye");
+//            }
         }
-
-        return "ERROR, no message found";
-
     }
 
     /**

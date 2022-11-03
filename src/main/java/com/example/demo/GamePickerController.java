@@ -42,7 +42,7 @@ public class GamePickerController implements Initializable {
         SharedData sharedData = SharedData.getInstance();
 
         sharedData.setPlayer(player);
-        sharedData.setGameType("tic tac toe");
+        sharedData.setGameType("tic-tac-toe");
         sharedData.setHasConnection(needsConnection.getValue().equals("Online"));
 
         if (gameType.getValue().equals(bke)) {

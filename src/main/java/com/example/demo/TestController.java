@@ -11,4 +11,12 @@ public class TestController {
     protected void onHelloButtonClick() {
         welcomeText.setText("Welcome to JavaFX Application!");
     }
+
+    public static void main(String[] args) {
+        String test = "SVR GAME MATCH {PLAYERTOMOVE: \"Wesley\", GAMETYPE: \"Tic-tac-toe\", OPPONENT: \"Wesley\"}";
+        String test2 = "SVR GAME MOVE {PLAYER: \"test\", MOVE: \"1\", DETAILS: \"\"}";
+        String test3 = "SVR GAME MOVE {PLAYER: \"test\", MOVE: \"2\", DETAILS: \"\"}";
+        String[] part = test3.split("\"", 3);
+        System.out.println(part[2].substring(2, part[2].lastIndexOf(',')));
+    }
 }
