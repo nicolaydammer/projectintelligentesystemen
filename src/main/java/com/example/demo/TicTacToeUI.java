@@ -2,18 +2,13 @@ package com.example.demo;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.ResourceBundle;
 
-public class TicTacToeController {
-    private Stones stone;
+public class TicTacToeUI {
     private final Board field = new Board(3);
 
     // for 2 humans playing
@@ -48,35 +43,35 @@ public class TicTacToeController {
     ClientConnectionController controller;
     SharedData sharedData = SharedData.getInstance();
 
-    public void initialize() {
-        if (sharedData.hasConnection()) {
-            controller = new ClientConnectionController();
-            try {
-                controller.startConnection();
-                controller.sendStartData();
-
-                // test method !!!!THIS IS NOT WORKING PROPERLY!!!
-                if(controller.checkStartingPlayer()) {
-                    controller.sendMessage("move 1");
-                } else {
-                    System.out.println(controller.checkTurn());
-                }
-
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
+   public void initialize() {
+//        if (sharedData.hasConnection()) {
+//            controller = new ClientConnectionController();
+//            try {
+//                controller.startConnection();
+//                controller.sendStartData();
+//
+//                // test method !!!!THIS IS NOT WORKING PROPERLY!!!
+//                if(controller.checkStartingPlayer()) {
+//                    controller.sendMessage("move 1");
+//                } else {
+//                    System.out.println(controller.checkTurn());
+//                }
+//
+//
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+//
         buttons = new ArrayList<>(Arrays.asList(button1, button2, button3, button4, button5, button6, button7, button8, button9));
         buttons.forEach(button -> {
             setUpButton(button);
             button.setFocusTraversable(false);
         });
-
-        restart.setOnMouseClicked(e -> {
-            //todo: implement restart
-        });
+//
+//        restart.setOnMouseClicked(e -> {
+//            //todo: implement restart
+//        });
     }
 
     void restartGame(ActionEvent event) {

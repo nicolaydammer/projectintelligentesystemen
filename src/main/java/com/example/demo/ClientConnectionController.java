@@ -82,10 +82,10 @@ public class ClientConnectionController {
      */
     public boolean checkStartingPlayer() throws IOException {
 
-        while (true) {
-            fromServer = in.readLine();
-            System.out.println("Server: " + fromServer);
+        fromServer = in.readLine();
+        System.out.println("Server: " + fromServer);
 
+        while (true) {
             if (fromServer.contains("SVR")) {
                 String[] part = fromServer.split("\"", 3);
                 System.out.println("test in checkStartingPlayer: " + part[1]);

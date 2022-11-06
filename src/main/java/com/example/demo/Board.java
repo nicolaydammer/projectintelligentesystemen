@@ -59,4 +59,23 @@ public class Board {
         //System.out.println("counted " + counter + "pieces on the board");
         return counter;
     }
+
+    public void updateBoard(int move){
+        switch (move) {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4: break;
+            case 5: break;
+            case 6: break;
+            case 7: break;
+            case 8: break;
+            default:break;
+        }
+    }
 }

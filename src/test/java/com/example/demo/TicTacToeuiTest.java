@@ -5,13 +5,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TicTacToeControllerTest {
+class TicTacToeuiTest {
 
-    TicTacToeController controller;
+    TicTacToeUI controller;
 
     @BeforeEach
     void setUp() {
-        controller = new TicTacToeController();
+        controller = new TicTacToeUI();
         assertNotNull(controller);
     }
 

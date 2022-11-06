@@ -52,7 +52,7 @@ public class GamePickerController implements Initializable {
 
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("/fxml/TicTacToe.fxml"));
-                fxmlLoader.setController(new TicTacToeController());
+                fxmlLoader.setController(new TicTacToeUI());
 
                 Parent root = fxmlLoader.load();
 
