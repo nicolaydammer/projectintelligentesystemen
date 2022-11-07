@@ -1,0 +1,38 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class GameLoop
+class GameControllerForTTT
+class ClientConnectionController
+class Player
+class Board
+class Stones
+class TicTacToeGameLoop
+class DesicionTree
+class Settings
+class SharedData
+
+
+Stones --|> Board
+Board --|> GameControllerForTTT
+DesicionTree --|> GameControllerForTTT
+Player --|> GameControllerForTTT
+SharedData --|> ClientConnectionController
+Settings --|> ClientConnectionController
+GameControllerForTTT --|> GameLoop
+GameStatus --|> GameLoop
+ClientConnectionController --|> GameLoop
+GameLoop --|> TicTacToeGameLoop
+
+
+
+
+abstract class GameLoop {
+}
+
+enum GameStatus {
+RUNNING
+STOPPED
+}
+
+@enduml
