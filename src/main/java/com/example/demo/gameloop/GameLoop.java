@@ -1,6 +1,7 @@
 package com.example.demo.gameloop;
 
 import com.example.demo.ClientConnectionController;
+import com.example.demo.SharedData;
 
 import java.io.IOException;
 import java.util.Random;
@@ -14,21 +15,18 @@ public abstract class GameLoop {
     protected ClientConnectionController connection;
 
     private Thread gameThread;
+    SharedData sharedData = SharedData.getInstance();
 
     public GameLoop(ClientConnectionController connection) {
         this.connection = connection;
         ticTacToeGameController = new GameControllerForTTT();
         status = GameStatus.STOPPED;
-        try {
-            if(connection.checkStartingPlayer()){
-                ticTacToeGameController.setUpPlayerCharacter('X');
-                ticTacToeGameController.setUpOpponentCharacter('O');
-            }else{
-                ticTacToeGameController.setUpPlayerCharacter('O');
-                ticTacToeGameController.setUpOpponentCharacter('X');
-            }
-        } catch (IOException e){
-            System.out.println(e.getMessage());
+        if(sharedData.getStartingPlayer()){
+            ticTacToeGameController.setUpPlayerCharacter('X');
+            ticTacToeGameController.setUpOpponentCharacter('O');
+        }else{
+            ticTacToeGameController.setUpPlayerCharacter('O');
+            ticTacToeGameController.setUpOpponentCharacter('X');
         }
     }
 
@@ -50,9 +48,12 @@ public abstract class GameLoop {
         try {
             if(connection.checkTurn().equals( "Jij moet een zet doen!")){
                 int move = ticTacToeGameController.calculateMove();
-                connection.sendMessage("move " + move);
+                sharedData.setMove(move);
+               // connection.sendMessage(move);
+                System.out.println();
                 ticTacToeGameController.updateBoard(move, ticTacToeGameController.getPlayerCharacter());
             }else if (!connection.checkTurn().equals("Je hebt gewonnen") || !connection.checkTurn().equals("Je hebt verloren")){
+                System.out.println("tegenstander zet "+ connection.checkTurn());
                 int move = Integer.parseInt(connection.checkTurn());
                 ticTacToeGameController.updateBoard(move, ticTacToeGameController.getOpponentCharacter());
             }

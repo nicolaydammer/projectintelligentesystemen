@@ -69,16 +69,20 @@ public class GamePickerController implements Initializable {
                     int wait = 100;
                     ClientConnectionController connection = new ClientConnectionController();
                     connection.startConnection();
-                    connection.sendStartData();
-
-                    TicTacToeGameLoop gameLoop = new TicTacToeGameLoop(connection);
-                    boolean isRunning = true;
-                    while (isRunning) {
-                        gameLoop.run();
-                        Thread.sleep(wait);
-                        isRunning = gameLoop.isGameRunning();
+                    if(connection.sendStartData()){
+                        TicTacToeGameLoop gameLoop = new TicTacToeGameLoop(connection);
+                        boolean isRunning = true;
+                        while (isRunning) {
+                            gameLoop.run();
+                            Thread.sleep(wait);
+                            isRunning = gameLoop.isGameRunning();
+                        }
+                        gameLoop.stop();
                     }
-                    gameLoop.stop();
+                    else{
+                        System.out.println("Niet mogelijk connectie te maken");
+                    }
+
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 } catch (InterruptedException e) {

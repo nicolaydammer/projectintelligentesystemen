@@ -79,6 +79,14 @@ public class ClientConnectionController {
             fromServer = in.readLine();
             if(fromServer.contains("SVR GAME MATCH")) {
                 System.out.println(fromServer);
+                String[] part = fromServer.split("\"", 3);
+                System.out.println("test in checkStartingPlayer: " + part[1]);
+                if (part[1].equals(sharedData.getPlayer().getName())) {
+                    sharedData.setStartingPlayer(true);
+                } else {
+                    sharedData.setStartingPlayer(false);
+                }
+
                 return true;
             }
         }
@@ -115,11 +123,10 @@ public class ClientConnectionController {
      * @throws IOException
      */
     public String checkTurn() throws IOException {
-
         while(true) {
             fromServer = in.readLine();
             String[] part = fromServer.split("\"", 3);
-
+            System.out.println(part[2]);
             if(part[2].contains("MOVE:")) {
                 return part[2].substring(2, part[2].lastIndexOf(','));
             }

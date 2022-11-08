@@ -6,11 +6,21 @@ public final class SharedData {
     private Player player;
     private String gameType;
     private boolean hasConnection;
+    private boolean setStartingPlayer;
+    private int move;
 
     private SharedData() {}
 
     public static SharedData getInstance() {
         return INSTANCE;
+    }
+
+    public void setMove(int move) {
+        this.move = move;
+    }
+
+    public int getMove(){
+        return this.move;
     }
 
     public Player getPlayer() {
@@ -19,6 +29,14 @@ public final class SharedData {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public void setStartingPlayer(boolean setStartingPlayer){
+        this.setStartingPlayer = setStartingPlayer;
+    }
+
+    public boolean getStartingPlayer(){
+        return setStartingPlayer;
     }
 
     public String getGameType() {
