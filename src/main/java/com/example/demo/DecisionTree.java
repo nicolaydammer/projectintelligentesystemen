@@ -7,20 +7,20 @@ public class DecisionTree {
     int[][] sides = {{0,1}, {1,2}, {2,1}, {1,0}};
     int[] middle = {1,1};
 
-    public DecisionTree(Board board, Stones stone){
-        this.board = board;
+    public DecisionTree(Stones stone){
         this.stone = stone;
     }
-    public int getNextMove(){
+    public int getNextMove(Board board1){
         /*
         returns the next move as an int from 1 to 9
          */
         //System.out.println("Starting decision");
-        int piece_counter = this.board.pieceCounter();
+
+        int piece_counter = board1.pieceCounter();
         int[] next_move = new int[2];
 
-        if (winOrDefend()[0] != -1){                                                            //check if there is a possibility of winning or losing.
-            next_move = winOrDefend();
+        if (winOrDefend(board1)[0] != -1){                                                            //check if there is a possibility of winning or losing.
+            next_move = winOrDefend(board1);
         } else {
             switch (piece_counter){
                 case 0:
@@ -70,18 +70,19 @@ public class DecisionTree {
         return convertToBoardPosition(next_move);
     }
 
-    private char[][] createArrays(){
+    private char[][] createArrays(Board board1){
         /*
         create an array for each possible winning combination of places on the board filled with the pieces on the board.
          */
         char[][] boardArrays = new char[8][3];
         int index = 0;
-        for (int i = 0; i < this.board.getSize(); i++){
+
+        for (int i = 0; i < board1.getSize(); i++){
             char[] column = new char[3];
             char[] row = new char[3];
-            for (int j = 0; j < this.board.getSize(); j ++){
-                column[j] = this.board.getBoard()[j][i].getValue();
-                row[j] = this.board.getBoard()[i][j].getValue();
+            for (int j = 0; j < board1.getSize(); j ++){
+                column[j] = board1.getBoard()[j][i].getValue();
+                row[j] = board1.getBoard()[i][j].getValue();
             }
             boardArrays[index] = column;
             index++;
@@ -89,14 +90,14 @@ public class DecisionTree {
             index++;
         }
         char[] diagonal1 = {
-                this.board.getBoard()[0][0].getValue(),
-                this.board.getBoard()[1][1].getValue(),
-                this.board.getBoard()[2][2].getValue()
+                board1.getBoard()[0][0].getValue(),
+                board1.getBoard()[1][1].getValue(),
+                board1.getBoard()[2][2].getValue()
         };
         char[] diagonal2 = {
-                this.board.getBoard()[0][2].getValue(),
-                this.board.getBoard()[1][1].getValue(),
-                this.board.getBoard()[2][0].getValue()
+                board1.getBoard()[0][2].getValue(),
+                board1.getBoard()[1][1].getValue(),
+                board1.getBoard()[2][0].getValue()
         };
         boardArrays[6] = diagonal1;
         boardArrays[7] = diagonal2;
@@ -155,13 +156,13 @@ public class DecisionTree {
     }
 
 
-    private int[] winOrDefend(){
+    private int[] winOrDefend(Board board1){
         /*
             check if there are two pieces of the same type next to each other on the board,
             if so, return the place on the board that prevents or completes three in a row.
      */
 
-        int[] checkDoubles = checkDoubles(createArrays());
+        int[] checkDoubles = checkDoubles(createArrays(board1));
         int[] place_at = new int[2];
         if(checkDoubles[0] != -1){
             int sum = checkDoubles[1] + checkDoubles[2];
