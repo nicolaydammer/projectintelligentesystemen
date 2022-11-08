@@ -63,21 +63,26 @@ public class ClientConnectionController {
 
     /**
      * Function that sends the initial required data such as player name and game mode to the server.
-     *
+     * And wait for a game, if searching for a game takes longer than 5 minutes stop.
      * @return response (String) contain the response from the server.
      * @throws IOException
      */
-    public void sendStartData() throws IOException {
+    public Boolean sendStartData() throws IOException {
         // Get the playername and gametype from shared data, so we can communicate to the server who we are and what we want to play,
         out.println("login " + sharedData.getPlayer().getName());
         out.println("subscribe " + sharedData.getGameType());
 
-        fromServer = in.readLine();
-        while(!fromServer.contains("SVR GAME MATCH")) {
-            fromServer = in.readLine();
-        }
+        final long NANOSEC_PER_SEC = 1000l*1000*1000;
 
-        System.out.println(fromServer);
+        long startTime = System.nanoTime();
+        while ((System.nanoTime()-startTime)< 5*60*NANOSEC_PER_SEC){
+            fromServer = in.readLine();
+            if(fromServer.contains("SVR GAME MATCH")) {
+                System.out.println(fromServer);
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
