@@ -2,15 +2,15 @@ package com.example.demo;
 
 public class DecisionTree {
     //Board board;
-    Stones stone;
+    //Stones stone;
     int[][] corners = {{0,0}, {0,2}, {2,0}, {2,2}};
     int[][] sides = {{0,1}, {1,2}, {2,1}, {1,0}};
     int[] middle = {1,1};
 
-    public DecisionTree(Stones stone){
-        this.stone = stone;
+    public DecisionTree(){
+
     }
-    public int getNextMove(Board board1){
+    public int getNextMove(Board board1, char stoneChar){
         /*
         returns the next move as an int from 0 to 8
          */
@@ -19,8 +19,8 @@ public class DecisionTree {
         int piece_counter = board1.pieceCounter();
         int[] next_move = new int[2];
 
-        if (winOrDefend(board1)[0] != -1){                                                            //check if there is a possibility of winning or losing.
-            next_move = winOrDefend(board1);
+        if (winOrDefend(board1, stoneChar)[0] != -1){                                                            //check if there is a possibility of winning or losing.
+            next_move = winOrDefend(board1, stoneChar);
         } else {
             switch (piece_counter){
                 case 0:
@@ -104,7 +104,7 @@ public class DecisionTree {
         return boardArrays;
     }
 
-    private int[] checkDoubles(char[][] arrays){
+    private int[] checkDoubles(char[][] arrays, char stoneChar){
         /*
         check if there are any arrays with two of the same char in it and if there is an empty space.
         If there is more than one array that satisfies this condition, return the one where char == stone.getValue() to win.
@@ -137,7 +137,7 @@ public class DecisionTree {
         if(isFound){
             //System.out.println(Arrays.deepToString(doubles));
             for (int[] doub : doubles){
-                if(doub[1] == stone.getValue()){foundDouble = doub;}
+                if(doub[1] == stoneChar){foundDouble = doub;}
             }
             return foundDouble;
         }
@@ -156,13 +156,13 @@ public class DecisionTree {
     }
 
 
-    private int[] winOrDefend(Board board1){
+    private int[] winOrDefend(Board board1, char stoneChar){
         /*
             check if there are two pieces of the same type next to each other on the board,
             if so, return the place on the board that prevents or completes three in a row.
      */
 
-        int[] checkDoubles = checkDoubles(createArrays(board1));
+        int[] checkDoubles = checkDoubles(createArrays(board1), stoneChar);
         int[] place_at = new int[2];
         if(checkDoubles[0] != -1){
             int sum = checkDoubles[1] + checkDoubles[2];
