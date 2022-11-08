@@ -1,7 +1,7 @@
 package com.example.demo;
 
 public class DecisionTree {
-    Board board;
+    //Board board;
     Stones stone;
     int[][] corners = {{0,0}, {0,2}, {2,0}, {2,2}};
     int[][] sides = {{0,1}, {1,2}, {2,1}, {1,0}};
@@ -27,13 +27,13 @@ public class DecisionTree {
                     next_move = corners[3];                                                     //first move, so place piece in corner
                     break;
                 case 1:
-                    if(this.board.getBoard()[1][1].getValue() == ' '){
+                    if(board1.getBoard()[1][1].getValue() == ' '){
                         next_move = middle;                                                     //second move, place in the middle. If that's not possible we can play as if we went first
                     } else{next_move = corners[3];}
                     break;
                 case 2:
-                    if(this.board.getBoard()[1][1].getValue() == ' '){                          //if middle is open
-                        if(this.board.getBoard()[2][0].getValue() == ' '){                      //choose corner 7 or 3
+                    if(board1.getBoard()[1][1].getValue() == ' '){                          //if middle is open
+                        if(board1.getBoard()[2][0].getValue() == ' '){                      //choose corner 7 or 3
                             next_move = corners[2];
                         } else {next_move = corners[1];}
 
@@ -43,23 +43,23 @@ public class DecisionTree {
                     break;
                 case 3:                                                                         //fourth move, place on side
                     for(int[] side : sides){
-                        if(this.board.getBoard()[side[0]][side[1]].getValue() == ' '){
+                        if(board1.getBoard()[side[0]][side[1]].getValue() == ' '){
                             next_move =side;
                         }
                     }
                     break;
                 case 4:
                     for(int[] corner : corners){                                                //check for empty corner
-                        if(this.board.getBoard()[corner[0]][corner[1]].getValue() == ' '){      //found empty corner
+                        if(board1.getBoard()[corner[0]][corner[1]].getValue() == ' '){      //found empty corner
                             next_move = corner;
                             break;
                         }
                     }
                     break;
                 default:                                                                        //if all else fails, pick a random empty place on the board. Should never be reached.
-                    for (int i = 0; i < this.board.getSize(); i++){
-                        for (int j = 0; j < this.board.getSize(); j++){
-                            if(this.board.getBoard()[i][j].getValue() == ' '){
+                    for (int i = 0; i < board1.getSize(); i++){
+                        for (int j = 0; j < board1.getSize(); j++){
+                            if(board1.getBoard()[i][j].getValue() == ' '){
                                 next_move = new int[]{i, j};
                             }
                         }
