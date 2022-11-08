@@ -14,38 +14,38 @@ public class GameControllerForTTT {
         this.decisionTree = new DecisionTree();
     }
     public void updateBoard(int move, char character){
-        board.updateBoard(move, character);
+        this.board.updateBoard(move, character);
     }
     public int calculateMove(){
-        return decisionTree.getNextMove(board, player.getPlayerCharacter());
+        return this.decisionTree.getNextMove(this.board, this.player.getPlayerCharacter());
     }
 
     public void changePlayerName(String name) {
-        player.setName(name);
+        this.player.setName(name);
     }
 
     public String getPlayerName() {
-        return player.getName();
+        return this.player.getName();
     }
 
     public void setUpOpponentCharacter(char character){
-        player.setOpponentCharacter(character);
+        this.player.setOpponentCharacter(character);
     }
 
     public char getOpponentCharacter(){
-        return player.getOpponentCharacter();
+        return this.player.getOpponentCharacter();
     }
 
     public void setUpPlayerCharacter(char character){
-        player.setPlayerCharacter(character);
+        this.player.setPlayerCharacter(character);
     }
 
     public char getPlayerCharacter(){
-        return player.getPlayerCharacter();
+        return this.player.getPlayerCharacter();
     }
 
     public void printBoard(){
-        board.printBoard();
+        this.board.printBoard();
     }
 
 }

@@ -27,7 +27,7 @@ public class Board {
         for(int i=0; i<this.size; i++) {
             System.out.print("| ");
             for (int j = 0; j < this.size;j++){
-                System.out.print(this.board[i][j] + " | ");
+                System.out.print(this.board[i][j].getValue() + " | ");
             }
 
             System.out.println();

@@ -46,16 +46,36 @@ public abstract class GameLoop {
 
     protected void processInput() {
         try {
-            if(connection.checkTurn().equals( "Jij moet een zet doen!")){
+            String response = connection.checkTurn();
+            System.out.println("response checkturn van procesinput:" + response);
+            if(response.contains("Jij moet een zet doen!")){
+                System.out.println(response); //jij moet een zet doen
                 int move = ticTacToeGameController.calculateMove();
-                sharedData.setMove(move);
-               // connection.sendMessage(move);
-                System.out.println();
                 ticTacToeGameController.updateBoard(move, ticTacToeGameController.getPlayerCharacter());
-            }else if (!connection.checkTurn().equals("Je hebt gewonnen") || !connection.checkTurn().equals("Je hebt verloren")){
-                System.out.println("tegenstander zet "+ connection.checkTurn());
-                int move = Integer.parseInt(connection.checkTurn());
+                ticTacToeGameController.printBoard();
+            }else if (response.contains("MOVE:")){
+                System.out.println(response); //move: <int>
+                String moveString = response.substring(response.indexOf("\"") + 1, response.lastIndexOf("\""));
+                int move = Integer.parseInt(moveString);
+                System.out.println(move);
                 ticTacToeGameController.updateBoard(move, ticTacToeGameController.getOpponentCharacter());
+                ticTacToeGameController.printBoard();
+            }else if (response.contains("Je hebt verloren")){
+                System.out.println("Je hebt verloren");
+                ticTacToeGameController.printBoard();
+                connection.stopConnection();
+                status = GameStatus.STOPPED;
+            }else if(response.equals("Je hebt gewonnen")){
+                System.out.println("Je hebt gewonnen");
+                ticTacToeGameController.printBoard();
+                connection.stopConnection();
+                status = GameStatus.STOPPED;
+            } else{
+                System.out.println(response);
+                System.out.println("Spel voorbij");
+                ticTacToeGameController.printBoard();
+                connection.stopConnection();
+                status = GameStatus.STOPPED;
             }
             int lag = new Random().nextInt(200) + 50;
             Thread.sleep(lag);
@@ -68,20 +88,6 @@ public abstract class GameLoop {
 
     protected void render() {
         ticTacToeGameController.printBoard();
-        try {
-            if (connection.checkTurn().equals("Je hebt verloren")){
-                System.out.println("Je hebt verloren");
-                connection.sendMessage("bye");
-                status = GameStatus.STOPPED;
-            }
-            else if (connection.checkTurn().equals("Je hebt gewonnen")){
-                System.out.println("Je hebt gewonnen");
-                connection.sendMessage("bye");
-                status = GameStatus.STOPPED;
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     protected abstract void processGameLoop();

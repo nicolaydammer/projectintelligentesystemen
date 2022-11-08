@@ -40,11 +40,14 @@ public class ClientConnectionController {
      * @throws IOException
      */
     public void stopConnection() throws IOException {
+
         System.out.println("Connection closing..");
-        in.close();
-        out.close();
-        gameServerSocket.close();
+//        in.close();
+//        out.close();
+//        gameServerSocket.close();
+        System.exit(1);
         System.out.println("Connection between you and " + settings.hostName + " have been successfully closed.");
+
     }
 
     /**
@@ -125,17 +128,24 @@ public class ClientConnectionController {
     public String checkTurn() throws IOException {
         while(true) {
             fromServer = in.readLine();
+            System.out.println(fromServer);
             String[] part = fromServer.split("\"", 3);
-            System.out.println(part[2]);
             if(part[2].contains("MOVE:")) {
                 return part[2].substring(2, part[2].lastIndexOf(','));
             }
             if(fromServer.contains("YOURTURN")) {
                 return "Jij moet een zet doen!";
             }
-//            if(fromServer.contains("SVR GAME LOSS") || fromServer.contains(("SVR GAME WIN"))) {
-//                return sendMessage("bye");
-//            }
+            if(fromServer.contains("SVR GAME LOSS")){
+                return "Je hebt verloren";
+            }
+
+            if(fromServer.contains("SVR GAME WIN")) {
+                return "Je hebt gewonnen";
+            }
+            if(fromServer.contains("ERR")){
+                return fromServer;
+            }
         }
     }
 
