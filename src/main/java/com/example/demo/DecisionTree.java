@@ -12,7 +12,7 @@ public class DecisionTree {
     }
     public int getNextMove(Board board1){
         /*
-        returns the next move as an int from 1 to 9
+        returns the next move as an int from 0 to 8
          */
         //System.out.println("Starting decision");
 
@@ -264,25 +264,25 @@ public class DecisionTree {
 
     private int convertToBoardPosition(int[] move){
         /*
-    Converts the position on the 2d board array to an integer from 1 to 9.
+    Converts the position on the 2d board array to an integer from 0 to 8.
      */
-        int result = 0;
+        int result = -1;
         if(move[0] == 0){
-            if (move[1] == 0){result = 1;}
-            else if (move[1] == 1) {result = 2;}/*
-    Converts the position on the 2d board array to an integer from 1 to 9.
+            if (move[1] == 0){result = 0;}
+            else if (move[1] == 1) {result = 1;}/*
+    Converts the position on the 2d board array to an integer from 0 to 8.
      */
-            else{result = 3;}
+            else{result = 2;}
         } //1, 2, 3
         else if (move[0] == 1){
-            if (move[1] == 0){result = 4;}
-            else if (move[1] == 1) {result = 5;}
-            else{result = 6;}
+            if (move[1] == 0){result = 3;}
+            else if (move[1] == 1) {result = 4;}
+            else{result = 5;}
         } //4, 5, 6
         else if (move[0] == 2){
-            if (move[1] == 0){result = 7;}
-            else if (move[1] == 1) {result = 8;}
-            else{result = 9;}
+            if (move[1] == 0){result = 6;}
+            else if (move[1] == 1) {result = 7;}
+            else{result = 8;}
         } //7, 8, 9
         return result;
     }
