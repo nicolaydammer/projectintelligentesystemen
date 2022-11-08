@@ -63,17 +63,26 @@ public class ClientConnectionController {
 
     /**
      * Function that sends the initial required data such as player name and game mode to the server.
-     *
+     * And wait for a game, if searching for a game takes longer than 5 minutes stop.
      * @return response (String) contain the response from the server.
      * @throws IOException
      */
-    public void sendStartData() throws IOException {
+    public Boolean sendStartData() throws IOException {
         // Get the playername and gametype from shared data, so we can communicate to the server who we are and what we want to play,
-//        out.println("login " + sharedData.getPlayer().getName());
-//        System.out.println(stdIn.readLine());
-           System.out.println("login Kyra");
-           out.println("subscribe " + sharedData.getGameType());
-        //System.out.println(stdIn.readLine());
+        out.println("login " + sharedData.getPlayer().getName());
+        out.println("subscribe " + sharedData.getGameType());
+
+        final long NANOSEC_PER_SEC = 1000l*1000*1000;
+
+        long startTime = System.nanoTime();
+        while ((System.nanoTime()-startTime)< 5*60*NANOSEC_PER_SEC){
+            fromServer = in.readLine();
+            if(fromServer.contains("SVR GAME MATCH")) {
+                System.out.println(fromServer);
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -83,10 +92,10 @@ public class ClientConnectionController {
      */
     public boolean checkStartingPlayer() throws IOException {
 
-        fromServer = in.readLine();
-        System.out.println("Server: " + fromServer);
-
         while (true) {
+            fromServer = in.readLine();
+            System.out.println("Server: " + fromServer);
+
             if (fromServer.contains("SVR")) {
                 String[] part = fromServer.split("\"", 3);
                 System.out.println("test in checkStartingPlayer: " + part[1]);
@@ -117,12 +126,9 @@ public class ClientConnectionController {
             if(fromServer.contains("YOURTURN")) {
                 return "Jij moet een zet doen!";
             }
-            if(fromServer.contains("SVR GAME LOSS")) {
-                return "Je hebt verloren";
-            }
-            if ( fromServer.contains("SVR GAME WIN")){
-                return "Je hebt gewonnen";
-            }
+//            if(fromServer.contains("SVR GAME LOSS") || fromServer.contains(("SVR GAME WIN"))) {
+//                return sendMessage("bye");
+//            }
         }
     }
 
