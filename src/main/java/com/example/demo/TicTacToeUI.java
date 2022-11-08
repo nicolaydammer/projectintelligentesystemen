@@ -1,14 +1,18 @@
 package com.example.demo;
 
+import javafx.beans.property.ReadOnlySetProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ResourceBundle;
 
-public class TicTacToeUI {
+public class TicTacToeUI implements Initializable {
     private final Board field = new Board(3);
 
     // for 2 humans playing
@@ -34,46 +38,19 @@ public class TicTacToeUI {
     @FXML
     private Text winnerText;
 
-    @FXML
-    private Button restart;
-
     private int playerTurn = 0;
 
     ArrayList<Button> buttons;
-    ClientConnectionController controller;
-    SharedData sharedData = SharedData.getInstance();
 
-   public void initialize() {
-//        if (sharedData.hasConnection()) {
-//            controller = new ClientConnectionController();
-//            try {
-//                controller.startConnection();
-//                controller.sendStartData();
-//
-//                // test method !!!!THIS IS NOT WORKING PROPERLY!!!
-//                if(controller.checkStartingPlayer()) {
-//                    controller.sendMessage("move 1");
-//                } else {
-//                    System.out.println(controller.checkTurn());
-//                }
-//
-//
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-//
+   public void initialize(URL url, ResourceBundle resourceBundle) {
         buttons = new ArrayList<>(Arrays.asList(button1, button2, button3, button4, button5, button6, button7, button8, button9));
         buttons.forEach(button -> {
             setUpButton(button);
             button.setFocusTraversable(false);
         });
-//
-//        restart.setOnMouseClicked(e -> {
-//            //todo: implement restart
-//        });
     }
 
+    @FXML
     void restartGame(ActionEvent event) {
         buttons.forEach(this::resetButton);
         winnerText.setText("TicTacToe");

@@ -1,25 +1,22 @@
 package com.example.demo.gameloop;
 
-import com.example.demo.Board;
-import com.example.demo.DecisionTree;
-import com.example.demo.Player;
-import com.example.demo.Stones;
+import com.example.demo.*;
 
 public class GameControllerForTTT {
     private final Board board;
     private final Stones stone;
     protected final Player player;
-
     protected DecisionTree decisionTree;
+    protected final SharedData data = SharedData.getInstance();
 
     public GameControllerForTTT() {
         this.board = new Board(3);
-        this.player = new Player("Funny");
-        this.stone = new Stones(' ');
+        this.player = data.getPlayer();
+        this.stone = new Stones(player.getPlayerCharacter());
         this.decisionTree = new DecisionTree(this.board, this.stone);
     }
-    public void updateBoard(int move){
-        board.updateBoard(move);
+    public void updateBoard(int move, char character){
+        board.updateBoard(move, character);
     }
     public int calculateMove(){
         return decisionTree.getNextMove();
@@ -39,6 +36,10 @@ public class GameControllerForTTT {
 
     public char getPlayerCharacter(){
         return player.getPlayerCharacter();
+    }
+
+    public void printBoard(){
+        board.printBoard();
     }
 
 }

@@ -15,8 +15,8 @@ class TicTacToeuiTest {
         assertNotNull(controller);
     }
 
-    @Test
-    public void ga_ik_controler_initialiseren() {
-        controller.initialize();
-    }
+//    @Test
+//    public void ga_ik_controler_initialiseren() {
+//        controller.initialize();
+//    }
 }

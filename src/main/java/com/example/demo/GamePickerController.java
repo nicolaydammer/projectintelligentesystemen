@@ -45,22 +45,45 @@ public class GamePickerController implements Initializable {
         sharedData.setGameType("tic-tac-toe");
         sharedData.setHasConnection(needsConnection.getValue().equals("Online"));
 
+
         if (gameType.getValue().equals(bke)) {
             Node node = (Node) actionEvent.getSource();
             Stage stage = (Stage) node.getScene().getWindow();
             stage.close();
 
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("/fxml/TicTacToe.fxml"));
-                fxmlLoader.setController(new TicTacToeUI());
+            if(!sharedData.hasConnection()) {
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("/fxml/TicTacToe.fxml"));
+                    fxmlLoader.setController(new TicTacToeUI());
 
-                Parent root = fxmlLoader.load();
+                    Parent root = fxmlLoader.load();
 
-                stage.setScene(new Scene(root, 800, 400));
-                stage.show();
+                    stage.setScene(new Scene(root, 800, 400));
+                    stage.show();
 
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }else{
+                try {
+                    int wait = 100;
+                    ClientConnectionController connection = new ClientConnectionController();
+                    connection.startConnection();
+                    connection.sendStartData();
+
+                    TicTacToeGameLoop gameLoop = new TicTacToeGameLoop();
+                    boolean isRunning = true;
+                    while (isRunning) {
+                        gameLoop.run();
+                        Thread.sleep(wait);
+                        isRunning = gameLoop.isGameRunning();
+                    }
+                    gameLoop.stop();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
 

@@ -14,7 +14,7 @@ public class TicTacToeGameLoop extends GameLoop {
     }
 
     protected void update() {
-        System.out.println("PlayerName : " + controller.getPlayerName());
+        System.out.println("Still going strong!");
     }
 
 }

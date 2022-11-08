@@ -15,6 +15,7 @@ class SharedData
 
 Stones --|> Board
 Board --|> GameControllerForTTT
+Board --|> DesicionTree
 DesicionTree --|> GameControllerForTTT
 Player --|> GameControllerForTTT
 SharedData --|> ClientConnectionController

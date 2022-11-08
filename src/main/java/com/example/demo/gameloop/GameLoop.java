@@ -46,20 +46,15 @@ public abstract class GameLoop {
 
     protected void processInput() {
         try {
-            if(clientConnectionController.checkTurn() == "Jij moet een zet doen!"){
+            if(clientConnectionController.checkTurn().equals( "Jij moet een zet doen!")){
                 int move = controller.calculateMove();
                 clientConnectionController.sendMessage("move " + move);
-                controller.updateBoard(move);
-            }else{
+                controller.updateBoard(move, controller.getPlayerCharacter());
+            }else if (!clientConnectionController.checkTurn().equals("Je hebt gewonnen") || !clientConnectionController.checkTurn().equals("Je hebt verloren")){
                 int move = Integer.parseInt(clientConnectionController.checkTurn());
-                controller.updateBoard(move);
+                controller.updateBoard(move, controller.getPlayerCharacter());
             }
             int lag = new Random().nextInt(200) + 50;
-            String newPlayerName = "Funny_" + lag;
-            controller.changePlayerName(newPlayerName);
-            if (controller.getPlayerName().length() == 9) {
-                this.stop();
-            }
             Thread.sleep(lag);
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
@@ -69,8 +64,21 @@ public abstract class GameLoop {
     }
 
     protected void render() {
-        String playerName = controller.getPlayerName();
-        System.out.println("Current playerName: " + playerName);
+        controller.printBoard();
+        try {
+            if (clientConnectionController.checkTurn().equals("Je hebt verloren")){
+                System.out.println("Je hebt verloren");
+                clientConnectionController.sendMessage("bye");
+                status = GameStatus.STOPPED;
+            }
+            else if (clientConnectionController.checkTurn().equals("Je hebt gewonnen")){
+                System.out.println("Je hebt gewonnen");
+                clientConnectionController.sendMessage("bye");
+                status = GameStatus.STOPPED;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     protected abstract void processGameLoop();

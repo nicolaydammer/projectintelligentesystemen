@@ -7,12 +7,12 @@ public class Board {
     public Board(int size) {
         this.size = size;
         this.board =  new Stones[size][size];
-//        initialization();
+        initialization();
     }
 
     public void initialization(){
-        for(int i=0; i<=this.size; i++) {
-            for (int j = 0; j <= this.size;j++){
+        for(int i=0; i<this.size; i++) {
+            for (int j = 0; j < this.size;j++){
                 this.board[i][j] = new Stones(' ');
             }
         }
@@ -24,9 +24,9 @@ public class Board {
         String border = borderChar.repeat(this.size*3);
         System.out.println(border);
 
-        for(int i=0; i<=this.size; i++) {
+        for(int i=0; i<this.size; i++) {
             System.out.print("| ");
-            for (int j = 0; j <= this.size;j++){
+            for (int j = 0; j < this.size;j++){
                 System.out.print(this.board[i][j] + " | ");
             }
 
@@ -60,22 +60,15 @@ public class Board {
         return counter;
     }
 
-    public void updateBoard(int move){
-        switch (move) {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4: break;
-            case 5: break;
-            case 6: break;
-            case 7: break;
-            case 8: break;
-            default:break;
+    public void updateBoard(int move, char character){
+        int counter = 0;
+        for(int i=0; i<this.size; i++) {
+            for (int j = 0; j < this.size;j++){
+                if(counter == move){
+                    board[i][j] = new Stones(character);
+                }
+                counter ++;
+            }
         }
     }
 }
