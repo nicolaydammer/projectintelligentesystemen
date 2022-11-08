@@ -1,39 +1,39 @@
 package com.example.demo;
 
 public class DecisionTree {
-    Board board;
-    Stones stone;
+    //Board board;
+    //Stones stone;
     int[][] corners = {{0,0}, {0,2}, {2,0}, {2,2}};
     int[][] sides = {{0,1}, {1,2}, {2,1}, {1,0}};
     int[] middle = {1,1};
 
-    public DecisionTree(Board board, Stones stone){
-        this.board = board;
-        this.stone = stone;
+    public DecisionTree(){
+
     }
-    public int getNextMove(){
+    public int getNextMove(Board board1, char stoneChar){
         /*
-        returns the next move as an int from 1 to 9
+        returns the next move as an int from 0 to 8
          */
         //System.out.println("Starting decision");
-        int piece_counter = this.board.pieceCounter();
+
+        int piece_counter = board1.pieceCounter();
         int[] next_move = new int[2];
 
-        if (winOrDefend()[0] != -1){                                                            //check if there is a possibility of winning or losing.
-            next_move = winOrDefend();
+        if (winOrDefend(board1, stoneChar)[0] != -1){                                                            //check if there is a possibility of winning or losing.
+            next_move = winOrDefend(board1, stoneChar);
         } else {
             switch (piece_counter){
                 case 0:
                     next_move = corners[3];                                                     //first move, so place piece in corner
                     break;
                 case 1:
-                    if(this.board.getBoard()[1][1].getValue() == ' '){
+                    if(board1.getBoard()[1][1].getValue() == ' '){
                         next_move = middle;                                                     //second move, place in the middle. If that's not possible we can play as if we went first
                     } else{next_move = corners[3];}
                     break;
                 case 2:
-                    if(this.board.getBoard()[1][1].getValue() == ' '){                          //if middle is open
-                        if(this.board.getBoard()[2][0].getValue() == ' '){                      //choose corner 7 or 3
+                    if(board1.getBoard()[1][1].getValue() == ' '){                          //if middle is open
+                        if(board1.getBoard()[2][0].getValue() == ' '){                      //choose corner 7 or 3
                             next_move = corners[2];
                         } else {next_move = corners[1];}
 
@@ -43,23 +43,23 @@ public class DecisionTree {
                     break;
                 case 3:                                                                         //fourth move, place on side
                     for(int[] side : sides){
-                        if(this.board.getBoard()[side[0]][side[1]].getValue() == ' '){
+                        if(board1.getBoard()[side[0]][side[1]].getValue() == ' '){
                             next_move =side;
                         }
                     }
                     break;
                 case 4:
                     for(int[] corner : corners){                                                //check for empty corner
-                        if(this.board.getBoard()[corner[0]][corner[1]].getValue() == ' '){      //found empty corner
+                        if(board1.getBoard()[corner[0]][corner[1]].getValue() == ' '){      //found empty corner
                             next_move = corner;
                             break;
                         }
                     }
                     break;
                 default:                                                                        //if all else fails, pick a random empty place on the board. Should never be reached.
-                    for (int i = 0; i < this.board.getSize(); i++){
-                        for (int j = 0; j < this.board.getSize(); j++){
-                            if(this.board.getBoard()[i][j].getValue() == ' '){
+                    for (int i = 0; i < board1.getSize(); i++){
+                        for (int j = 0; j < board1.getSize(); j++){
+                            if(board1.getBoard()[i][j].getValue() == ' '){
                                 next_move = new int[]{i, j};
                             }
                         }
@@ -70,18 +70,19 @@ public class DecisionTree {
         return convertToBoardPosition(next_move);
     }
 
-    private char[][] createArrays(){
+    private char[][] createArrays(Board board1){
         /*
         create an array for each possible winning combination of places on the board filled with the pieces on the board.
          */
         char[][] boardArrays = new char[8][3];
         int index = 0;
-        for (int i = 0; i < this.board.getSize(); i++){
+
+        for (int i = 0; i < board1.getSize(); i++){
             char[] column = new char[3];
             char[] row = new char[3];
-            for (int j = 0; j < this.board.getSize(); j ++){
-                column[j] = this.board.getBoard()[j][i].getValue();
-                row[j] = this.board.getBoard()[i][j].getValue();
+            for (int j = 0; j < board1.getSize(); j ++){
+                column[j] = board1.getBoard()[j][i].getValue();
+                row[j] = board1.getBoard()[i][j].getValue();
             }
             boardArrays[index] = column;
             index++;
@@ -89,21 +90,21 @@ public class DecisionTree {
             index++;
         }
         char[] diagonal1 = {
-                this.board.getBoard()[0][0].getValue(),
-                this.board.getBoard()[1][1].getValue(),
-                this.board.getBoard()[2][2].getValue()
+                board1.getBoard()[0][0].getValue(),
+                board1.getBoard()[1][1].getValue(),
+                board1.getBoard()[2][2].getValue()
         };
         char[] diagonal2 = {
-                this.board.getBoard()[0][2].getValue(),
-                this.board.getBoard()[1][1].getValue(),
-                this.board.getBoard()[2][0].getValue()
+                board1.getBoard()[0][2].getValue(),
+                board1.getBoard()[1][1].getValue(),
+                board1.getBoard()[2][0].getValue()
         };
         boardArrays[6] = diagonal1;
         boardArrays[7] = diagonal2;
         return boardArrays;
     }
 
-    private int[] checkDoubles(char[][] arrays){
+    private int[] checkDoubles(char[][] arrays, char stoneChar){
         /*
         check if there are any arrays with two of the same char in it and if there is an empty space.
         If there is more than one array that satisfies this condition, return the one where char == stone.getValue() to win.
@@ -136,7 +137,7 @@ public class DecisionTree {
         if(isFound){
             //System.out.println(Arrays.deepToString(doubles));
             for (int[] doub : doubles){
-                if(doub[1] == stone.getValue()){foundDouble = doub;}
+                if(doub[1] == stoneChar){foundDouble = doub;}
             }
             return foundDouble;
         }
@@ -155,13 +156,13 @@ public class DecisionTree {
     }
 
 
-    private int[] winOrDefend(){
+    private int[] winOrDefend(Board board1, char stoneChar){
         /*
             check if there are two pieces of the same type next to each other on the board,
             if so, return the place on the board that prevents or completes three in a row.
      */
 
-        int[] checkDoubles = checkDoubles(createArrays());
+        int[] checkDoubles = checkDoubles(createArrays(board1), stoneChar);
         int[] place_at = new int[2];
         if(checkDoubles[0] != -1){
             int sum = checkDoubles[1] + checkDoubles[2];
@@ -263,25 +264,25 @@ public class DecisionTree {
 
     private int convertToBoardPosition(int[] move){
         /*
-    Converts the position on the 2d board array to an integer from 1 to 9.
+    Converts the position on the 2d board array to an integer from 0 to 8.
      */
-        int result = 0;
+        int result = -1;
         if(move[0] == 0){
-            if (move[1] == 0){result = 1;}
-            else if (move[1] == 1) {result = 2;}/*
-    Converts the position on the 2d board array to an integer from 1 to 9.
+            if (move[1] == 0){result = 0;}
+            else if (move[1] == 1) {result = 1;}/*
+    Converts the position on the 2d board array to an integer from 0 to 8.
      */
-            else{result = 3;}
+            else{result = 2;}
         } //1, 2, 3
         else if (move[0] == 1){
-            if (move[1] == 0){result = 4;}
-            else if (move[1] == 1) {result = 5;}
-            else{result = 6;}
+            if (move[1] == 0){result = 3;}
+            else if (move[1] == 1) {result = 4;}
+            else{result = 5;}
         } //4, 5, 6
         else if (move[0] == 2){
-            if (move[1] == 0){result = 7;}
-            else if (move[1] == 1) {result = 8;}
-            else{result = 9;}
+            if (move[1] == 0){result = 6;}
+            else if (move[1] == 1) {result = 7;}
+            else{result = 8;}
         } //7, 8, 9
         return result;
     }
