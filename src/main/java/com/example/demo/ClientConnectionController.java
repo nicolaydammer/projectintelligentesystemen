@@ -69,9 +69,10 @@ public class ClientConnectionController {
      */
     public void sendStartData() throws IOException {
         // Get the playername and gametype from shared data, so we can communicate to the server who we are and what we want to play,
-        out.println("login " + sharedData.getPlayer().getName());
+//        out.println("login " + sharedData.getPlayer().getName());
 //        System.out.println(stdIn.readLine());
-        out.println("subscribe " + sharedData.getGameType());
+           System.out.println("login Kyra");
+           out.println("subscribe " + sharedData.getGameType());
         //System.out.println(stdIn.readLine());
     }
 
@@ -82,10 +83,10 @@ public class ClientConnectionController {
      */
     public boolean checkStartingPlayer() throws IOException {
 
-        while (true) {
-            fromServer = in.readLine();
-            System.out.println("Server: " + fromServer);
+        fromServer = in.readLine();
+        System.out.println("Server: " + fromServer);
 
+        while (true) {
             if (fromServer.contains("SVR")) {
                 String[] part = fromServer.split("\"", 3);
                 System.out.println("test in checkStartingPlayer: " + part[1]);
@@ -116,9 +117,12 @@ public class ClientConnectionController {
             if(fromServer.contains("YOURTURN")) {
                 return "Jij moet een zet doen!";
             }
-//            if(fromServer.contains("SVR GAME LOSS") || fromServer.contains(("SVR GAME WIN"))) {
-//                return sendMessage("bye");
-//            }
+            if(fromServer.contains("SVR GAME LOSS")) {
+                return "Je hebt verloren";
+            }
+            if ( fromServer.contains("SVR GAME WIN")){
+                return "Je hebt gewonnen";
+            }
         }
     }
 
