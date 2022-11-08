@@ -4,7 +4,6 @@ import com.example.demo.*;
 
 public class GameControllerForTTT {
     private final Board board;
-    private final Stones stone;
     protected final Player player;
     protected DecisionTree decisionTree;
     protected final SharedData data = SharedData.getInstance();
@@ -12,14 +11,13 @@ public class GameControllerForTTT {
     public GameControllerForTTT() {
         this.board = new Board(3);
         this.player = data.getPlayer();
-        this.stone = new Stones(player.getPlayerCharacter());
-        this.decisionTree = new DecisionTree(this.board, this.stone);
+        this.decisionTree = new DecisionTree();
     }
     public void updateBoard(int move, char character){
         board.updateBoard(move, character);
     }
     public int calculateMove(){
-        return decisionTree.getNextMove();
+        return decisionTree.getNextMove(board, player.getPlayerCharacter());
     }
 
     public void changePlayerName(String name) {
@@ -28,6 +26,14 @@ public class GameControllerForTTT {
 
     public String getPlayerName() {
         return player.getName();
+    }
+
+    public void setUpOpponentCharacter(char character){
+        player.setOpponentCharacter(character);
+    }
+
+    public char getOpponentCharacter(){
+        return player.getOpponentCharacter();
     }
 
     public void setUpPlayerCharacter(char character){

@@ -71,7 +71,7 @@ public class GamePickerController implements Initializable {
                     connection.startConnection();
                     connection.sendStartData();
 
-                    TicTacToeGameLoop gameLoop = new TicTacToeGameLoop();
+                    TicTacToeGameLoop gameLoop = new TicTacToeGameLoop(connection);
                     boolean isRunning = true;
                     while (isRunning) {
                         gameLoop.run();

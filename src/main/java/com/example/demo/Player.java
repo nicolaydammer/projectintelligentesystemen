@@ -3,10 +3,20 @@ package com.example.demo;
 public class Player {
     private String playerName;
     private char playerCharacter;
+    private char opponentCharacter;
 
     public Player(String playerName){
         this.playerName = playerName;
         this.playerCharacter = playerCharacter;
+        this.opponentCharacter = opponentCharacter;
+    }
+
+    public char getOpponentCharacter() {
+        return opponentCharacter;
+    }
+
+    public void setOpponentCharacter(char opponentCharacter) {
+        this.opponentCharacter = opponentCharacter;
     }
 
     public char getPlayerCharacter() {

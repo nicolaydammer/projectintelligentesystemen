@@ -9,21 +9,23 @@ public abstract class GameLoop {
 
     protected volatile GameStatus status;
 
-    protected GameControllerForTTT controller;
+    protected GameControllerForTTT ticTacToeGameController;
 
-    protected ClientConnectionController clientConnectionController;
+    protected ClientConnectionController connection;
 
     private Thread gameThread;
 
-    public GameLoop() {
-        clientConnectionController  = new ClientConnectionController();
-        controller = new GameControllerForTTT();
+    public GameLoop(ClientConnectionController connection) {
+        this.connection = connection;
+        ticTacToeGameController = new GameControllerForTTT();
         status = GameStatus.STOPPED;
         try {
-            if(clientConnectionController.checkStartingPlayer()){
-                controller.setUpPlayerCharacter('X');
+            if(connection.checkStartingPlayer()){
+                ticTacToeGameController.setUpPlayerCharacter('X');
+                ticTacToeGameController.setUpOpponentCharacter('O');
             }else{
-                controller.setUpPlayerCharacter('O');
+                ticTacToeGameController.setUpPlayerCharacter('O');
+                ticTacToeGameController.setUpOpponentCharacter('X');
             }
         } catch (IOException e){
             System.out.println(e.getMessage());
@@ -46,13 +48,13 @@ public abstract class GameLoop {
 
     protected void processInput() {
         try {
-            if(clientConnectionController.checkTurn().equals( "Jij moet een zet doen!")){
-                int move = controller.calculateMove();
-                clientConnectionController.sendMessage("move " + move);
-                controller.updateBoard(move, controller.getPlayerCharacter());
-            }else if (!clientConnectionController.checkTurn().equals("Je hebt gewonnen") || !clientConnectionController.checkTurn().equals("Je hebt verloren")){
-                int move = Integer.parseInt(clientConnectionController.checkTurn());
-                controller.updateBoard(move, controller.getPlayerCharacter());
+            if(connection.checkTurn().equals( "Jij moet een zet doen!")){
+                int move = ticTacToeGameController.calculateMove();
+                connection.sendMessage("move " + move);
+                ticTacToeGameController.updateBoard(move, ticTacToeGameController.getPlayerCharacter());
+            }else if (!connection.checkTurn().equals("Je hebt gewonnen") || !connection.checkTurn().equals("Je hebt verloren")){
+                int move = Integer.parseInt(connection.checkTurn());
+                ticTacToeGameController.updateBoard(move, ticTacToeGameController.getOpponentCharacter());
             }
             int lag = new Random().nextInt(200) + 50;
             Thread.sleep(lag);
@@ -64,16 +66,16 @@ public abstract class GameLoop {
     }
 
     protected void render() {
-        controller.printBoard();
+        ticTacToeGameController.printBoard();
         try {
-            if (clientConnectionController.checkTurn().equals("Je hebt verloren")){
+            if (connection.checkTurn().equals("Je hebt verloren")){
                 System.out.println("Je hebt verloren");
-                clientConnectionController.sendMessage("bye");
+                connection.sendMessage("bye");
                 status = GameStatus.STOPPED;
             }
-            else if (clientConnectionController.checkTurn().equals("Je hebt gewonnen")){
+            else if (connection.checkTurn().equals("Je hebt gewonnen")){
                 System.out.println("Je hebt gewonnen");
-                clientConnectionController.sendMessage("bye");
+                connection.sendMessage("bye");
                 status = GameStatus.STOPPED;
             }
         } catch (IOException e) {
