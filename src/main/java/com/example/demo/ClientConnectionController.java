@@ -70,9 +70,14 @@ public class ClientConnectionController {
     public void sendStartData() throws IOException {
         // Get the playername and gametype from shared data, so we can communicate to the server who we are and what we want to play,
         out.println("login " + sharedData.getPlayer().getName());
-//        System.out.println(stdIn.readLine());
         out.println("subscribe " + sharedData.getGameType());
-        //System.out.println(stdIn.readLine());
+
+        fromServer = in.readLine();
+        while(!fromServer.contains("SVR GAME MATCH")) {
+            fromServer = in.readLine();
+        }
+
+        System.out.println(fromServer);
     }
 
     /**
