@@ -1,8 +1,8 @@
 package com.example.demo;
 
 public class Settings {
-    public String hostName = "localhost";
-    public int port = 7790;
+    public String hostName = "145.33.225.170";
+    public int port = 7789;
 
     public void setHostName(String hostName) {
         this.hostName = hostName;

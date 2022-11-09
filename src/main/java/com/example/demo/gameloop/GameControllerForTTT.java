@@ -3,7 +3,7 @@ package com.example.demo.gameloop;
 import com.example.demo.*;
 
 public class GameControllerForTTT {
-    private final Board board;
+    private Board board;
     protected final Player player;
     protected DecisionTree decisionTree;
     protected final SharedData data = SharedData.getInstance();
@@ -16,6 +16,7 @@ public class GameControllerForTTT {
     public void updateBoard(int move, char character){
         this.board.updateBoard(move, character);
     }
+    public void refreshBoard(){board = new Board(3);}
     public int calculateMove(){
         return this.decisionTree.getNextMove(this.board, this.player.getPlayerCharacter());
     }

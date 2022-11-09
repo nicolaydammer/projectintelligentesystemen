@@ -66,7 +66,7 @@ public abstract class GameLoop {
             }
 
             // If the response is that you can do a move, calculate the move and send it to the server.
-            if(response.contains("Jij moet een zet doen!")){
+            if (response.contains("Jij moet een zet doen!")){
                 move = ticTacToeGameController.calculateMove();
                 currentCharacter = ticTacToeGameController.getPlayerCharacter();
                 update();
@@ -75,17 +75,26 @@ public abstract class GameLoop {
             }
 
             if (response.contains("Je hebt verloren")){
-                connection.stopConnection();
+                //connection.stopConnection();
+                ticTacToeGameController.refreshBoard();
                 update();
                 render();
-                status = GameStatus.STOPPED;
+                //status = GameStatus.STOPPED;
             }
 
-            if(response.equals("Je hebt gewonnen")){
-                connection.stopConnection();
+            if (response.equals("Je hebt gewonnen")){
+                //connection.stopConnection();
+                ticTacToeGameController.refreshBoard();
                 update();
                 render();
-                status = GameStatus.STOPPED;
+                //status = GameStatus.STOPPED;
+            }
+            if (response.equals("Gelijkspel")){
+                //connection.stopConnection();
+                ticTacToeGameController.refreshBoard();
+                update();
+                render();
+                //status = GameStatus.STOPPED;
             }
 //            else{
 //                System.out.println(response);
