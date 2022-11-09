@@ -57,11 +57,9 @@ public class ClientConnectionController {
      * @return response (String) contains the response from the server.
      * @throws IOException
      */
-    public String sendMessage(String message) throws IOException {
+    public void sendMessage(String message) throws IOException {
         // Send a message to the server, and return the response given from the server.
         out.println(message);
-        String response = stdIn.readLine();
-        return response;
     }
 
     /**
@@ -126,14 +124,17 @@ public class ClientConnectionController {
      * @throws IOException
      */
     public String checkTurn() throws IOException {
-        while(true) {
             fromServer = in.readLine();
-            System.out.println(fromServer);
+            System.out.println("Server: " + fromServer);
             String[] part = fromServer.split("\"", 3);
-            if(part[2].contains("MOVE:")) {
-                return part[2].substring(2, part[2].lastIndexOf(','));
+
+            if (part.length > 1) {
+                if (part[2].contains("MOVE:") && !part[1].equals(sharedData.getPlayer().getName())) {
+                    return "Zet tegenstander: " + part[2].substring(2, part[2].lastIndexOf(','));
+                }
             }
-            if(fromServer.contains("YOURTURN")) {
+            if(fromServer.contains("TURNMESSAGE:")) {
+                System.out.println(fromServer + " dit is in checkturn");
                 return "Jij moet een zet doen!";
             }
             if(fromServer.contains("SVR GAME LOSS")){
@@ -143,11 +144,14 @@ public class ClientConnectionController {
             if(fromServer.contains("SVR GAME WIN")) {
                 return "Je hebt gewonnen";
             }
+
             if(fromServer.contains("ERR")){
                 return fromServer;
             }
+
+            return fromServer;
+
         }
-    }
 
     /**
      * Initial method main to test the connection.

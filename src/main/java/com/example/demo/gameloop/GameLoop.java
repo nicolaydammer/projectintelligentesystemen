@@ -15,6 +15,10 @@ public abstract class GameLoop {
     protected ClientConnectionController connection;
 
     private Thread gameThread;
+
+    int move;
+
+    char currentCharacter;
     SharedData sharedData = SharedData.getInstance();
 
     public GameLoop(ClientConnectionController connection) {
@@ -28,6 +32,9 @@ public abstract class GameLoop {
             ticTacToeGameController.setUpPlayerCharacter('O');
             ticTacToeGameController.setUpOpponentCharacter('X');
         }
+
+        System.out.println("Jij speelt als: " + ticTacToeGameController.getPlayerCharacter());
+
     }
 
     public void run() {
@@ -47,40 +54,50 @@ public abstract class GameLoop {
     protected void processInput() {
         try {
             String response = connection.checkTurn();
-            System.out.println("response checkturn van procesinput:" + response);
-            if(response.contains("Jij moet een zet doen!")){
-                System.out.println(response); //jij moet een zet doen
-                int move = ticTacToeGameController.calculateMove();
-                ticTacToeGameController.updateBoard(move, ticTacToeGameController.getPlayerCharacter());
-                ticTacToeGameController.printBoard();
-            }else if (response.contains("MOVE:")){
-                System.out.println(response); //move: <int>
+            System.out.println("Response van procesinput: " + response);
+
+            // if the response equels move, the opponent did a move. and now we want to handle this response.
+            if (response.contains("Zet tegenstander:")){
                 String moveString = response.substring(response.indexOf("\"") + 1, response.lastIndexOf("\""));
-                int move = Integer.parseInt(moveString);
-                System.out.println(move);
-                ticTacToeGameController.updateBoard(move, ticTacToeGameController.getOpponentCharacter());
-                ticTacToeGameController.printBoard();
-            }else if (response.contains("Je hebt verloren")){
-                System.out.println("Je hebt verloren");
-                ticTacToeGameController.printBoard();
+                move = Integer.parseInt(moveString);
+                currentCharacter = ticTacToeGameController.getOpponentCharacter();
+                update();
+                render();
+            }
+
+            // If the response is that you can do a move, calculate the move and send it to the server.
+            if(response.contains("Jij moet een zet doen!")){
+                move = ticTacToeGameController.calculateMove();
+                currentCharacter = ticTacToeGameController.getPlayerCharacter();
+                update();
+                render();
+                connection.sendMessage("move " + move);
+            }
+
+            if (response.contains("Je hebt verloren")){
                 connection.stopConnection();
-                status = GameStatus.STOPPED;
-            }else if(response.equals("Je hebt gewonnen")){
-                System.out.println("Je hebt gewonnen");
-                ticTacToeGameController.printBoard();
-                connection.stopConnection();
-                status = GameStatus.STOPPED;
-            } else{
-                System.out.println(response);
-                System.out.println("Spel voorbij");
-                ticTacToeGameController.printBoard();
-                connection.stopConnection();
+                update();
+                render();
                 status = GameStatus.STOPPED;
             }
-            int lag = new Random().nextInt(200) + 50;
-            Thread.sleep(lag);
-        } catch (InterruptedException e) {
-            System.out.println(e.getMessage());
+
+            if(response.equals("Je hebt gewonnen")){
+                connection.stopConnection();
+                update();
+                render();
+                status = GameStatus.STOPPED;
+            }
+//            else{
+//                System.out.println(response);
+//                System.out.println("Spel voorbij");
+//                ticTacToeGameController.printBoard();
+//                connection.stopConnection();
+//                status = GameStatus.STOPPED;
+//            }
+//            System.out.println();
+//            int lag = new Random().nextInt(200) + 50;
+//            Thread.sleep(lag);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -88,6 +105,12 @@ public abstract class GameLoop {
 
     protected void render() {
         ticTacToeGameController.printBoard();
+    }
+
+    protected void update() {
+        System.out.println("update bord...");
+        ticTacToeGameController.updateBoard(move, currentCharacter);
+        System.out.println();
     }
 
     protected abstract void processGameLoop();
