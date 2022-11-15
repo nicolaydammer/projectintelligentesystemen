@@ -1,0 +1,34 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+left to right direction
+skinparam packageStyle rectangle
+actor AI
+actor Gebruiker
+actor LocaleAI
+actor Server
+
+rectangle Player {
+
+    Gebruiker -- (AI spel starten)
+    Gebruiker -- (Stop)
+    Gebruiker -- (zetInvoer)
+    (WinOrLose) .> (zetInvoer): extends
+    AI -- (zetInvoer)
+    AI -- (ZetBerekenen)
+
+
+}
+
+rectangle localeAI {
+    (tegenzet) -- LocaleAI
+    (ZetBerekenen) .> (tegenzet) : extends
+    (zetInvoer) <. (tegenzet) :includes
+}
+rectangle gameController {
+    (DelenServer) -- Server
+    (ZetBerekenen) .>(DelenServer) :includes
+    (zetInvoer) -> (DelenServer)
+}
+
+@enduml
