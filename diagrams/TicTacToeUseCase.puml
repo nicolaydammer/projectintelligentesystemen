@@ -16,19 +16,17 @@ rectangle Player {
     (WinOrLose) .> (zetInvoer): extends
     AI -- (zetInvoer)
     AI -- (ZetBerekenen)
-
-
-}
-
-rectangle localeAI {
     (tegenzet) -- LocaleAI
     (ZetBerekenen) .> (tegenzet) : extends
     (zetInvoer) <. (tegenzet) :includes
+
 }
+
 rectangle gameController {
     (DelenServer) -- Server
     (ZetBerekenen) .>(DelenServer) :includes
     (zetInvoer) -> (DelenServer)
 }
+
 
 @enduml
