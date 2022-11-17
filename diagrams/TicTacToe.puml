@@ -12,18 +12,25 @@ class DesicionTree
 class Settings
 class SharedData
 
+TicTacToeGameLoop <|-- GameLoop
+GameLoop <|--  ClientConnectionController
+GameLoop .> GameStatus : > depends
+GameLoop <|-- GameControllerForTTT
 
-Stones --|> Board
-Board --|> GameControllerForTTT
-Board --|> DesicionTree
-DesicionTree --|> GameControllerForTTT
-Player --|> GameControllerForTTT
-SharedData --|> ClientConnectionController
-Settings --|> ClientConnectionController
-GameControllerForTTT --|> GameLoop
-GameStatus --|> GameLoop
-ClientConnectionController --|> GameLoop
-GameLoop --|> TicTacToeGameLoop
+ClientConnectionController <|-- Settings
+ClientConnectionController <|-- SharedData
+
+Player - GameControllerForTTT
+GameControllerForTTT <.. DesicionTree : > depends
+GameControllerForTTT <.. Board : > depends
+Board *-- Stones : needs >
+
+
+
+
+
+
+
 
 
 
