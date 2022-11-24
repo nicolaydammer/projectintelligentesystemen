@@ -5,7 +5,7 @@ abstract class GameLoop
 class GameControllerForTTT
 class ClientConnectionController
 class Player
-class Board
+abstract class Board
 class Stones
 class TicTacToeGameLoop
 class DesicionTree
@@ -13,16 +13,16 @@ class Settings
 class SharedData
 
 TicTacToeGameLoop <|-- GameLoop
-GameLoop <|--  ClientConnectionController
-GameLoop .> GameStatus : > depends
-GameLoop <|-- GameControllerForTTT
+TicTacToeGameLoop <|--  ClientConnectionController
+GameStatus <. GameLoop : > depends
+TicTacToeGameLoop <|-- GameControllerForTTT
 
 ClientConnectionController <|-- Settings
 ClientConnectionController <|-- SharedData
 
 Player - GameControllerForTTT
 GameControllerForTTT <.. DesicionTree : > depends
-GameControllerForTTT <.. Board : > depends
+GameControllerForTTT <.. Board : < extends
 Board *-- Stones : needs >
 
 
