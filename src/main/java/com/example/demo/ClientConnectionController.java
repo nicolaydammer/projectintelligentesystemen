@@ -149,12 +149,7 @@ public class ClientConnectionController {
                 return "Gelijkspel";
             }
 
-            if(fromServer.contains("ERR")){
-                return fromServer;
-            }
-
-            return fromServer;
-
+        return fromServer;
         }
 
     /**

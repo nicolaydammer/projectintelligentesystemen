@@ -17,7 +17,8 @@ public class TicTacToeGameLoop extends GameLoop {
     SharedData sharedData = SharedData.getInstance();
 
     public TicTacToeGameLoop(ClientConnectionController connection) {
-        this.connection = connection;
+        super(connection);
+
         ticTacToeGameController = new GameControllerForTTT();
         loopStatus = GameLoopStatus.STOPPED;
         if(sharedData.getStartingPlayer()){

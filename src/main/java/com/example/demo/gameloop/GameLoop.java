@@ -22,8 +22,8 @@ public abstract class GameLoop {
     char currentCharacter;
     SharedData sharedData = SharedData.getInstance();
 
-//    public GameLoop(ClientConnectionController connection) {
-//        this.connection = connection;
+    public GameLoop(ClientConnectionController connection) {
+        this.connection = connection;
 //        ticTacToeGameController = new GameControllerForTTT();
 //        status = GameStatus.STOPPED;
 //        if(sharedData.getStartingPlayer()){
@@ -36,7 +36,7 @@ public abstract class GameLoop {
 //
 //        System.out.println("Jij speelt als: " + ticTacToeGameController.getPlayerCharacter());
 //
-//    }
+    }
 
     public void run() {
         loopStatus = GameLoopStatus.RUNNING;
