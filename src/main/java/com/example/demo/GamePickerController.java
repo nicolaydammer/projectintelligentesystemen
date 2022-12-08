@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -24,7 +25,10 @@ public class GamePickerController implements Initializable {
     public ComboBox<String> gameType;
 
     @FXML
-    public ComboBox<String> needsConnection;
+    public ComboBox<String> gamemode;
+
+    @FXML
+    public CheckBox tournementMode;
 
     private static final String bke = "Boter kaas en eieren";
     private static final String othello = "Othello";
@@ -43,7 +47,8 @@ public class GamePickerController implements Initializable {
 
         sharedData.setPlayer(player);
         sharedData.setGameType("tic-tac-toe");
-        sharedData.setHasConnection(needsConnection.getValue().equals("Online"));
+        sharedData.setGamemode(gamemode.getValue());
+        sharedData.setTournementMode(tournementMode.isSelected());
 
 
         if (gameType.getValue().equals(bke)) {
@@ -51,7 +56,7 @@ public class GamePickerController implements Initializable {
             Stage stage = (Stage) node.getScene().getWindow();
             stage.close();
 
-            if(!sharedData.hasConnection()) {
+            if(sharedData.getGamemode().equals("Speler vs Speler")) {
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("/fxml/TicTacToe.fxml"));
                     fxmlLoader.setController(new TicTacToeUI());
@@ -102,8 +107,8 @@ public class GamePickerController implements Initializable {
         gameType.getItems().addAll(bke, othello);
         gameType.getSelectionModel().selectFirst();
 
-        needsConnection.getItems().clear();
-        needsConnection.getItems().addAll("Online", "Lokaal");
-        needsConnection.getSelectionModel().selectFirst();
+        gamemode.getItems().clear();
+        gamemode.getItems().addAll("Speler vs Speler", "Speler vs Computer", "AI vs AI (online)");
+        gamemode.getSelectionModel().selectFirst();
     }
 }
