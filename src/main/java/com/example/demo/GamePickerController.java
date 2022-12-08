@@ -87,12 +87,14 @@ public class GamePickerController implements Initializable {
                     throw new RuntimeException(e);
                 }
             }
+
+        //    if (gameType.getValue().equals(othello)) {
+        //        todo: implement this in 2nd term.
+        //    }
         }
 
-//        if (gameType.getValue().equals(othello)) {
-            //todo: implement this in 2nd term.
-//        }
-    }
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
