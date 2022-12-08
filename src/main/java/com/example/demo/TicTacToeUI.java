@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class TicTacToeUI implements Initializable {
-    private final Board field = new Board(3);
 
     // for 2 humans playing
     @FXML

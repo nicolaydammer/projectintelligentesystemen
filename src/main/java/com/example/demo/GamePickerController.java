@@ -50,43 +50,36 @@ public class GamePickerController implements Initializable {
         sharedData.setGamemode(gamemode.getValue());
         sharedData.setTournementMode(tournementMode.isSelected());
 
+        Node node = (Node) actionEvent.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        stage.close();
 
         if (gameType.getValue().equals(bke)) {
-            Node node = (Node) actionEvent.getSource();
-            Stage stage = (Stage) node.getScene().getWindow();
-            stage.close();
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("/fxml/TicTacToe.fxml"));
+                fxmlLoader.setController(new TicTacToeUI());
 
-            if(sharedData.getGamemode().equals("Speler vs Speler")) {
-                try {
-                    FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("/fxml/TicTacToe.fxml"));
-                    fxmlLoader.setController(new TicTacToeUI());
+                Parent root = fxmlLoader.load();
 
-                    Parent root = fxmlLoader.load();
+                stage.setScene(new Scene(root, 800, 400));
+                stage.show();
 
-                    stage.setScene(new Scene(root, 800, 400));
-                    stage.show();
-
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                int wait = 100;
+                ClientConnectionController connection = new ClientConnectionController();
+                connection.startConnection();
+                if(connection.sendStartData()){
+                    TicTacToeGameLoop gameLoop = new TicTacToeGameLoop(connection);
+                    boolean isRunning = true;
+                    while (isRunning) {
+                        gameLoop.run();
+                        Thread.sleep(wait);
+                        isRunning = gameLoop.isGameRunning();
+                    }
+                    gameLoop.stop();
                 }
-            }else{
-                try {
-                    int wait = 100;
-                    ClientConnectionController connection = new ClientConnectionController();
-                    connection.startConnection();
-                    if(connection.sendStartData()){
-                        TicTacToeGameLoop gameLoop = new TicTacToeGameLoop(connection);
-                        boolean isRunning = true;
-                        while (isRunning) {
-                            gameLoop.run();
-                            Thread.sleep(wait);
-                            isRunning = gameLoop.isGameRunning();
-                        }
-                        gameLoop.stop();
-                    }
-                    else{
-                        System.out.println("Niet mogelijk connectie te maken");
-                    }
+                else{
+                    System.out.println("Niet mogelijk connectie te maken");
+                }
 
                 } catch (IOException e) {
                     throw new RuntimeException(e);

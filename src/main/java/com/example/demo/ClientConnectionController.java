@@ -71,7 +71,7 @@ public class ClientConnectionController {
     public Boolean sendStartData() throws IOException {
         // Get the playername and gametype from shared data, so we can communicate to the server who we are and what we want to play,
         out.println("login " + sharedData.getPlayer().getName());
-       // out.println("subscribe " + sharedData.getGameType());
+        out.println("subscribe " + sharedData.getGameType());
 
         final long NANOSEC_PER_SEC = 1000l*1000*1000;
 
@@ -149,12 +149,7 @@ public class ClientConnectionController {
                 return "Gelijkspel";
             }
 
-            if(fromServer.contains("ERR")){
-                return fromServer;
-            }
-
-            return fromServer;
-
+        return fromServer;
         }
 
     /**

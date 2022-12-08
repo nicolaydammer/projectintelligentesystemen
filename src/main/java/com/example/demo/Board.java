@@ -1,6 +1,6 @@
 package com.example.demo;
 
-public class Board {
+public abstract class Board {
     private final int size;
     private final Stones[][] board;
 
@@ -19,19 +19,15 @@ public class Board {
     }
 
     public void printBoard(){
-        // todo: validate if this still works
         String borderChar = "_";
-        String border = borderChar.repeat(this.size*3);
+        String border = borderChar.repeat(this.size*10);
+
         System.out.println(border);
-
-        for(int i=0; i<this.size; i++) {
-            System.out.print("| ");
-            for (int j = 0; j < this.size;j++){
-                System.out.print(this.board[i][j].getValue() + " | ");
+        for(Stones[] stones : this.board) {
+            for (Stones stone: stones){
+                System.out.print(stone.getValue() + " ");
             }
-
             System.out.println();
-            System.out.println(border);
         }
         System.out.println(border);
     }
@@ -42,16 +38,18 @@ public class Board {
 
     public Stones[][] getBoard() {return this.board; }
 
-    private boolean isEmptyPlace(int i, int j) {
-        return this.board[i][j].getValue() == ' ';
+    public char getStone(int i, int j){
+        return this.board[i][j].getValue();
     }
+
+    protected abstract boolean allowedMove(int i, int j);
 
     public int pieceCounter(){
         int counter = 0;
         for(int i=0; i<this.size; i++) {
 
             for (int j = 0; j < this.size;j++){
-                if(!isEmptyPlace(i,j)){
+                if(!allowedMove(i,j)){
                     counter++;
                 }
             }
@@ -71,4 +69,5 @@ public class Board {
             }
         }
     }
+
 }
