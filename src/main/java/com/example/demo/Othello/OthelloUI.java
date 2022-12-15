@@ -129,6 +129,7 @@ public class OthelloUI implements Initializable {
     public void setPlayerSymbol(Pane field) {
         //todo: turn other stones player's color
         if (playerTurn % 2 == 0) {
+            //todo: current circle is grey --> change color
             Circle circle =  drawCircle(Color.BLACK);
             field.getChildren().add(circle);
             playerTurn = 1;

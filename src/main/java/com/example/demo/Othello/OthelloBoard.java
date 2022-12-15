@@ -108,8 +108,6 @@ public class OthelloBoard extends Board {
         List moves = new ArrayList<>();
 
         for(int i = 0; i < board.length; i++) {
-
-
             for(int j = 0; j < board[i].length; j++) {
                 List possibleMove = new ArrayList<>();
                 //check surrouding when i = 1, j = 2
@@ -123,31 +121,31 @@ public class OthelloBoard extends Board {
                             possibleMove.add(leftSide);
                         }
                         List rightSide = makeBracket(i, j+1, 0, 1, stoneChar);
-                        if(!leftSide.isEmpty()){
+                        if(!rightSide.isEmpty()){
                             possibleMove.add(leftSide);
                         }
                         List upSide = makeBracket(i-1, j, -1, 0, stoneChar);
-                        if(!leftSide.isEmpty()){
+                        if(!upSide.isEmpty()){
                             possibleMove.add(leftSide);
                         }
                         List downSide = makeBracket(i+1, j, 1, 0, stoneChar);
-                        if(!leftSide.isEmpty()){
+                        if(!downSide.isEmpty()){
                             possibleMove.add(leftSide);
                         }
                         List rightUpDiagonal = makeBracket(i-1, j+1, -1, 1, stoneChar);
-                        if(!leftSide.isEmpty()){
+                        if(!rightUpDiagonal.isEmpty()){
                             possibleMove.add(leftSide);
                         }
                         List rightDownDiagonal = makeBracket(i+1, j+1, 1, 1, stoneChar);
-                        if(!leftSide.isEmpty()){
+                        if(!rightDownDiagonal.isEmpty()){
                             possibleMove.add(leftSide);
                         }
                         List leftDownDiagonal = makeBracket(i+1, j-1, 1, -1, stoneChar);
-                        if(!leftSide.isEmpty()){
+                        if(!leftDownDiagonal.isEmpty()){
                             possibleMove.add(leftSide);
                         }
                         List leftUpDiagonal = makeBracket(i-1, j-1, -1, -1, stoneChar);
-                        if(!leftSide.isEmpty()){
+                        if(!leftUpDiagonal.isEmpty()){
                             possibleMove.add(leftSide);
                         }
                         if(!possibleMove.isEmpty()){
