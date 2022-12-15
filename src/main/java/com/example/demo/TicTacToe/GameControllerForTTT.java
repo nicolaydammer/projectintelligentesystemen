@@ -1,5 +1,7 @@
-package com.example.demo.gameloop;
+package com.example.demo.TicTacToe;
 
+import com.example.demo.TicTacToe.DecisionTree;
+import com.example.demo.TicTacToe.TicTacToeBoard;
 import com.example.demo.*;
 
 public class GameControllerForTTT {

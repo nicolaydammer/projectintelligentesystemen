@@ -1,4 +1,6 @@
-package com.example.demo;
+package com.example.demo.TicTacToe;
+
+import com.example.demo.Board;
 
 public class DecisionTree {
     //Board board;

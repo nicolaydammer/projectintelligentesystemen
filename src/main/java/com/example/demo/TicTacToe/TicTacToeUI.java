@@ -1,6 +1,5 @@
-package com.example.demo;
+package com.example.demo.TicTacToe;
 
-import javafx.beans.property.ReadOnlySetProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -52,7 +51,7 @@ public class TicTacToeUI implements Initializable {
     @FXML
     void restartGame(ActionEvent event) {
         buttons.forEach(this::resetButton);
-        winnerText.setText("TicTacToe");
+        winnerText.setText("com/example/demo/TicTacToe");
     }
 
     public void resetButton(Button button) {

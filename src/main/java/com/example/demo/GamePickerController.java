@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import com.example.demo.TicTacToe.TicTacToeGameLoop;
+import com.example.demo.TicTacToe.TicTacToeUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -87,7 +89,7 @@ public class GamePickerController implements Initializable {
 //        if (gameType.getValue().equals(othello)) {
             //todo: implement this in 2nd term.
 //        }
-    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

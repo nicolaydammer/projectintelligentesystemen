@@ -1,4 +1,4 @@
-package com.example.orthello;
+package com.example.demo.Othello;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

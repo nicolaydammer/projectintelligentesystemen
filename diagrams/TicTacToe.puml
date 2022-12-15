@@ -11,10 +11,14 @@ class TicTacToeGameLoop
 class DesicionTree
 class Settings
 class SharedData
+enum GameStatus
+enum GameLoopStatus
 
 TicTacToeGameLoop <|-- GameLoop
 TicTacToeGameLoop <|--  ClientConnectionController
+GameLoopStatus <. GameLoop
 GameStatus <. GameLoop : > depends
+
 TicTacToeGameLoop <|-- GameControllerForTTT
 
 ClientConnectionController <|-- Settings
@@ -25,22 +29,20 @@ GameControllerForTTT <.. DesicionTree : > depends
 GameControllerForTTT <.. Board : < extends
 Board *-- Stones : needs >
 
-
-
-
-
-
-
-
-
-
-
 abstract class GameLoop {
 }
 
-enum GameStatus {
+enum GameLoopStatus {
 RUNNING
 STOPPED
 }
 
+enum GameStatus {
+LOST
+WON
+DRAW
+OPPONENT_TURN
+MY_TURN
+ERROR
+}
 @enduml

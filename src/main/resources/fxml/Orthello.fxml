@@ -1,89 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.effect.ColorInput?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button id="A1" fx:id="A1" layoutX="100.0" layoutY="100.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="A2" fx:id="A2" layoutX="200.0" layoutY="100.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="A3" fx:id="A3" layoutX="300.0" layoutY="100.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="A4" fx:id="A4" layoutX="400.0" layoutY="100.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="A5" fx:id="A5" layoutX="500.0" layoutY="100.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="A6" fx:id="A6" layoutX="600.0" layoutY="100.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="A7" fx:id="A7" layoutX="700.0" layoutY="100.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="A8" fx:id="A8" layoutX="800.0" layoutY="100.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="B1" fx:id="B1" layoutX="100.0" layoutY="200.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="B2" fx:id="B2" layoutX="200.0" layoutY="200.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="B3" fx:id="B3" layoutX="300.0" layoutY="200.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="B4" fx:id="B4" layoutX="400.0" layoutY="200.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="B5" fx:id="B5" layoutX="500.0" layoutY="200.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="B6" fx:id="B6" layoutX="600.0" layoutY="200.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="B7" fx:id="B7" layoutX="700.0" layoutY="200.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="B8" fx:id="B8" layoutX="800.0" layoutY="200.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="H1" fx:id="H1" layoutX="100.0" layoutY="800.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="H2" fx:id="H2" layoutX="200.0" layoutY="800.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="H3" fx:id="H3" layoutX="300.0" layoutY="800.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="H4" fx:id="H4" layoutX="400.0" layoutY="800.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="H5" fx:id="H5" layoutX="500.0" layoutY="800.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="H6" fx:id="H6" layoutX="600.0" layoutY="800.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="H7" fx:id="H7" layoutX="700.0" layoutY="800.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="H8" fx:id="H8" layoutX="800.0" layoutY="800.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="G1" fx:id="G1" layoutX="100.0" layoutY="700.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="G2" fx:id="G2" layoutX="200.0" layoutY="700.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="G3" fx:id="G3" layoutX="300.0" layoutY="700.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="G4" fx:id="G4" layoutX="400.0" layoutY="700.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="G5" fx:id="G5" layoutX="500.0" layoutY="700.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="G6" fx:id="G6" layoutX="600.0" layoutY="700.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="G7" fx:id="G7" layoutX="700.0" layoutY="700.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="G8" fx:id="G8" layoutX="800.0" layoutY="700.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="F1" fx:id="F1" layoutX="100.0" layoutY="600.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="F2" fx:id="F2" layoutX="200.0" layoutY="600.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="F3" fx:id="F3" layoutX="300.0" layoutY="600.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="F4" fx:id="F4" layoutX="400.0" layoutY="600.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="F5" fx:id="F5" layoutX="500.0" layoutY="600.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="F6" fx:id="F6" layoutX="600.0" layoutY="600.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="F7" fx:id="F7" layoutX="700.0" layoutY="600.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="F8" fx:id="F8" layoutX="800.0" layoutY="600.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="E1" fx:id="E1" layoutX="100.0" layoutY="500.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="E2" fx:id="E2" layoutX="200.0" layoutY="500.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="E3" fx:id="E3" layoutX="300.0" layoutY="500.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="E4" fx:id="E4" layoutX="400.0" layoutY="500.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx background-color: Black;">
-         <effect>
-            <ColorInput height="100.0" paint="BLACK" width="100.0" />
-         </effect></Button>
-      <Button id="E5" fx:id="E5" layoutX="500.0" layoutY="500.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx background-color: White;">
-         <effect>
-            <ColorInput height="100.0" paint="WHITE" width="100.0" />
-         </effect></Button>
-      <Button id="E6" fx:id="E6" layoutX="600.0" layoutY="500.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="E7" fx:id="E7" layoutX="700.0" layoutY="500.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="E8" fx:id="E8" layoutX="800.0" layoutY="500.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="D1" fx:id="D1" layoutX="100.0" layoutY="400.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="D2" fx:id="D2" layoutX="200.0" layoutY="400.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="D3" fx:id="D3" layoutX="300.0" layoutY="400.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="D4" fx:id="D4" layoutX="400.0" layoutY="400.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx background-color: White">
-         <effect>
-            <ColorInput height="100.0" paint="WHITE" width="100.0" />
-         </effect></Button>
-      <Button id="D5" fx:id="D5" layoutX="500.0" layoutY="400.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx background-color: Black">
-         <effect>
-            <ColorInput height="100.0" paint="BLACK" width="100.0" />
-         </effect></Button>
-      <Button id="D6" fx:id="D6" layoutX="600.0" layoutY="400.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="D7" fx:id="D7" layoutX="700.0" layoutY="400.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="D8" fx:id="D8" layoutX="800.0" layoutY="400.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="C1" fx:id="C1" layoutX="100.0" layoutY="300.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="C2" fx:id="C2" layoutX="200.0" layoutY="300.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="C3" fx:id="C3" layoutX="300.0" layoutY="300.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="C4" fx:id="C4" layoutX="400.0" layoutY="300.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="C5" fx:id="C5" layoutX="500.0" layoutY="300.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="C6" fx:id="C6" layoutX="600.0" layoutY="300.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="C7" fx:id="C7" layoutX="700.0" layoutY="300.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-      <Button id="C8" fx:id="C8" layoutX="800.0" layoutY="300.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
-
+     <GridPane layoutX="111.0" layoutY="166.0" prefHeight="300.0" prefWidth="400.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
       <Button fx:id="restart" layoutX="474.0" layoutY="935.0" mnemonicParsing="false" onAction="#restartGame" text="Restart" />
       <Text layoutX="100.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Score Wit" />
       <Text fx:id="ScoreWhiteText" layoutX="100.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2" wrappingWidth="53.0" />
