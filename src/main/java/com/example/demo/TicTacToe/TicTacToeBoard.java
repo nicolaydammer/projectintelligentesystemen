@@ -1,6 +1,6 @@
 package com.example.demo.TicTacToe;
 
-import com.example.demo.Board;
+import com.example.demo.board.Board;
 
 public class TicTacToeBoard extends Board {
     public TicTacToeBoard() {

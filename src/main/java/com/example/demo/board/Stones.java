@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.board;
 public class Stones {
 
     private char value;

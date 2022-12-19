@@ -1,8 +1,7 @@
 package com.example.demo.TicTacToe;
 
-import com.example.demo.TicTacToe.DecisionTree;
-import com.example.demo.TicTacToe.TicTacToeBoard;
-import com.example.demo.*;
+import com.example.demo.data.Player;
+import com.example.demo.data.SharedData;
 
 public class GameControllerForTTT {
     protected final Player player;

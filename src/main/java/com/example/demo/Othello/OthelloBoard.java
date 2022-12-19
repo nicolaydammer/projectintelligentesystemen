@@ -1,7 +1,7 @@
 package com.example.demo.Othello;
 
-import com.example.demo.Board;
-import com.example.demo.Stones;
+import com.example.demo.board.Board;
+import com.example.demo.board.Stones;
 
 import java.util.ArrayList;
 import java.util.List;

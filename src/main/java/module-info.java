@@ -11,4 +11,10 @@ module com.example.demo {
     opens com.example.demo.TicTacToe to javafx.fxml;
     exports com.example.demo.Othello;
     opens com.example.demo.Othello to javafx.fxml;
+    exports com.example.demo.connection;
+    opens com.example.demo.connection to javafx.fxml;
+    exports com.example.demo.board;
+    opens com.example.demo.board to javafx.fxml;
+    exports com.example.demo.data;
+    opens com.example.demo.data to javafx.fxml;
 }

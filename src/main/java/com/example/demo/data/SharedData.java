@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.data;
 
 //singleton class
 public final class SharedData {
@@ -6,7 +6,9 @@ public final class SharedData {
     private Player player;
     private String gameType;
     private boolean hasConnection;
-    private boolean setStartingPlayer;
+
+    // Default value for starting player is false, **DO NOT CHANGE!**
+    private boolean setStartingPlayer = false;
 
     private SharedData() {}
 

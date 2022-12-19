@@ -1,4 +1,6 @@
-package com.example.demo;
+package com.example.demo.board;
+
+import com.example.demo.board.Stones;
 
 public abstract class Board {
     private final int size;

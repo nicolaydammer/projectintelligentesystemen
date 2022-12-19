@@ -1,7 +1,7 @@
 package com.example.demo.TicTacToe;
 
-import com.example.demo.ClientConnectionController;
-import com.example.demo.SharedData;
+import com.example.demo.connection.ClientConnectionController;
+import com.example.demo.data.SharedData;
 import com.example.demo.gameloop.GameLoop;
 import com.example.demo.gameloop.GameLoopStatus;
 import com.example.demo.gameloop.GameStatus;

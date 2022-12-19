@@ -1,7 +1,7 @@
 package com.example.demo.gameloop;
 
-import com.example.demo.ClientConnectionController;
-import com.example.demo.SharedData;
+import com.example.demo.connection.ClientConnectionController;
+import com.example.demo.data.SharedData;
 import com.example.demo.TicTacToe.GameControllerForTTT;
 
 import java.io.IOException;
