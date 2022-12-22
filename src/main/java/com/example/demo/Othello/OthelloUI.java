@@ -44,6 +44,7 @@ public class OthelloUI implements Initializable {
 
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
+                //todo: maak klasse cel die pane extends
                 Pane field = new Pane();
                 panes.add(field);
                 setupPane(field);
