@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import com.example.demo.Othello.OthelloGameLoop;
+import com.example.demo.Othello.OthelloUI;
 import com.example.demo.TicTacToe.TicTacToeGameLoop;
 import com.example.demo.TicTacToe.TicTacToeUI;
 import com.example.demo.connection.ClientConnectionController;
@@ -51,7 +53,7 @@ public class GamePickerController implements Initializable {
         SharedData sharedData = SharedData.getInstance();
 
         sharedData.setPlayer(player);
-        sharedData.setGameType("tic-tac-toe");
+        sharedData.setGameType(gameType.getValue());
         sharedData.setGamemode(gamemode.getValue());
         sharedData.setTournementMode(tournementMode.isSelected());
 
@@ -72,7 +74,7 @@ public class GamePickerController implements Initializable {
                 int wait = 100;
                 ClientConnectionController connection = new ClientConnectionController();
                 connection.startConnection();
-                if(connection.sendStartData()){
+                if (connection.sendStartData()) {
                     TicTacToeGameLoop gameLoop = new TicTacToeGameLoop(connection);
                     boolean isRunning = true;
                     while (isRunning) {
@@ -81,24 +83,54 @@ public class GamePickerController implements Initializable {
                         isRunning = gameLoop.isGameRunning();
                     }
                     gameLoop.stop();
-                }
-                else{
+                } else {
                     System.out.println("Niet mogelijk connectie te maken");
                 }
 
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
-
-        //    if (gameType.getValue().equals(othello)) {
-        //        todo: implement this in 2nd term.
-        //    }
         }
 
+        if (gameType.getValue().equals(othello)) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("Othello/fxml/.fxml"));
+                fxmlLoader.setController(new OthelloUI());
 
+                Parent root = fxmlLoader.load();
+
+                stage.setScene(new Scene(root, 800, 400));
+                stage.show();
+
+
+                ClientConnectionController connection = new ClientConnectionController();
+                connection.startConnection();
+                if (connection.sendStartData()) {
+                    OthelloGameLoop gameLoop = new OthelloGameLoop(connection);
+
+                    boolean isRunning = true;
+                    int wait = 100;
+
+                    while (isRunning) {
+                        gameLoop.run();
+                        Thread.sleep(wait);
+                        isRunning = gameLoop.isGameRunning();
+                    }
+
+                    gameLoop.stop();
+                } else {
+                    System.out.println("Niet mogelijk connectie te maken");
+                }
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
 
     @Override
