@@ -5,10 +5,11 @@ public final class SharedData {
     private final static SharedData INSTANCE = new SharedData();
     private Player player;
     private String gameType;
-    private boolean hasConnection;
-
     // Default value for starting player is false, **DO NOT CHANGE!**
     private boolean setStartingPlayer = false;
+
+    private String gamemode;
+    private boolean tournementMode;
 
     private SharedData() {}
 
@@ -40,11 +41,19 @@ public final class SharedData {
         this.gameType = gameType;
     }
 
-    public boolean hasConnection() {
-        return hasConnection;
+    public String getGamemode() {
+        return gamemode;
     }
 
-    public void setHasConnection(boolean hasConnection) {
-        this.hasConnection = hasConnection;
+    public void setGamemode(String gamemode) {
+        this.gamemode = gamemode;
+    }
+
+    public boolean isTournementMode() {
+        return tournementMode;
+    }
+
+    public void setTournementMode(boolean tournementMode) {
+        this.tournementMode = tournementMode;
     }
 }
