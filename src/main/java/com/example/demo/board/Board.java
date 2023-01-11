@@ -44,14 +44,14 @@ public abstract class Board {
         return this.board[i][j].getValue();
     }
 
-    protected abstract boolean allowedMove(int i, int j);
+    protected abstract boolean allowedMove(int i, int j, char Stone);
 
     public int pieceCounter(){
         int counter = 0;
         for(int i=0; i<this.size; i++) {
 
             for (int j = 0; j < this.size;j++){
-                if(!allowedMove(i,j)){
+                if(!allowedMove(i,j, getStone(i, j))){
                     counter++;
                 }
             }

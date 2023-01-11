@@ -8,7 +8,7 @@ public class TicTacToeBoard extends Board {
     }
 
     @Override
-    protected boolean allowedMove(int i, int j) {
+    protected boolean allowedMove(int i, int j, char Stone) {
         return super.getStone(i, j) == ' ';
     }
 
