@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import com.example.demo.Othello.OthelloGameLoop;
+import com.example.demo.Othello.OthelloUI;
 import com.example.demo.TicTacToe.TicTacToeGameLoop;
 import com.example.demo.TicTacToe.TicTacToeUI;
 import com.example.demo.connection.ClientConnectionController;
@@ -12,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -29,7 +32,10 @@ public class GamePickerController implements Initializable {
     public ComboBox<String> gameType;
 
     @FXML
-    public ComboBox<String> needsConnection;
+    public ComboBox<String> gamemode;
+
+    @FXML
+    public CheckBox tournementMode;
 
     private static final String bke = "Boter kaas en eieren";
     private static final String othello = "Othello";
@@ -47,8 +53,9 @@ public class GamePickerController implements Initializable {
         SharedData sharedData = SharedData.getInstance();
 
         sharedData.setPlayer(player);
-        sharedData.setGameType("tic-tac-toe");
-        sharedData.setHasConnection(needsConnection.getValue().equals("Online"));
+        sharedData.setGameType(gameType.getValue());
+        sharedData.setGamemode(gamemode.getValue());
+        sharedData.setTournementMode(tournementMode.isSelected());
 
         Node node = (Node) actionEvent.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
@@ -63,11 +70,11 @@ public class GamePickerController implements Initializable {
 
                 stage.setScene(new Scene(root, 800, 400));
                 stage.show();
-                
+
                 int wait = 100;
                 ClientConnectionController connection = new ClientConnectionController();
                 connection.startConnection();
-                if(connection.sendStartData()){
+                if (connection.sendStartData()) {
                     TicTacToeGameLoop gameLoop = new TicTacToeGameLoop(connection);
                     boolean isRunning = true;
                     while (isRunning) {
@@ -76,22 +83,54 @@ public class GamePickerController implements Initializable {
                         isRunning = gameLoop.isGameRunning();
                     }
                     gameLoop.stop();
-                }
-                else{
+                } else {
                     System.out.println("Niet mogelijk connectie te maken");
                 }
 
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
 
-//        if (gameType.getValue().equals(othello)) {
-            //todo: implement this in 2nd term.
-//        }
+        if (gameType.getValue().equals(othello)) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("Othello/fxml/.fxml"));
+                fxmlLoader.setController(new OthelloUI());
+
+                Parent root = fxmlLoader.load();
+
+                stage.setScene(new Scene(root, 800, 400));
+                stage.show();
+
+
+                ClientConnectionController connection = new ClientConnectionController();
+                connection.startConnection();
+                if (connection.sendStartData()) {
+                    OthelloGameLoop gameLoop = new OthelloGameLoop(connection);
+
+                    boolean isRunning = true;
+                    int wait = 100;
+
+                    while (isRunning) {
+                        gameLoop.run();
+                        Thread.sleep(wait);
+                        isRunning = gameLoop.isGameRunning();
+                    }
+
+                    gameLoop.stop();
+                } else {
+                    System.out.println("Niet mogelijk connectie te maken");
+                }
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
 
     @Override
@@ -100,8 +139,8 @@ public class GamePickerController implements Initializable {
         gameType.getItems().addAll(bke, othello);
         gameType.getSelectionModel().selectFirst();
 
-        needsConnection.getItems().clear();
-        needsConnection.getItems().addAll("Online", "Lokaal");
-        needsConnection.getSelectionModel().selectFirst();
+        gamemode.getItems().clear();
+        gamemode.getItems().addAll("Speler vs Speler", "Speler vs Computer", "AI vs AI (online)");
+        gamemode.getSelectionModel().selectFirst();
     }
 }

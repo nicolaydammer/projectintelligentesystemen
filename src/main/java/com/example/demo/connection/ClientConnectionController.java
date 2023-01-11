@@ -85,7 +85,9 @@ public class ClientConnectionController {
     public Boolean sendStartData() throws IOException {
 
         // Get the playername and gametype from shared data, so we can communicate to the server who we are and what we want to play,
-        out.println("subscribe " + sharedData.getGameType());
+        if (!sharedData.isTournementMode()) {
+            out.println("subscribe " + sharedData.getGameType());
+        }
         final long NANOSEC_PER_SEC = 1000l*1000*1000;
         long startTime = System.nanoTime();
         while ((System.nanoTime()-startTime)< 5*60*NANOSEC_PER_SEC){

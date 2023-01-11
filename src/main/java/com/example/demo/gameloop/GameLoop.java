@@ -12,7 +12,6 @@ public abstract class GameLoop {
     protected volatile GameLoopStatus loopStatus;
 
     protected volatile GameStatus gameStatus;
-    protected GameControllerForTTT ticTacToeGameController;
 
     protected ClientConnectionController connection;
 
@@ -92,8 +91,7 @@ public abstract class GameLoop {
         }
     }
 
-    protected void render() {
-    }
+    protected abstract void render();
 
     protected abstract void update();
 

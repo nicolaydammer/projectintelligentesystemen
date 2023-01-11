@@ -34,6 +34,11 @@ public class TicTacToeGameLoop extends GameLoop {
     }
 
     @Override
+    protected void render() {
+
+    }
+
+    @Override
     protected void processGameLoop() {
         while (isGameRunning()) {
             processInput();
