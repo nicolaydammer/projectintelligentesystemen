@@ -31,6 +31,19 @@ public class OthelloBoard extends Board {
         blackScore = score;
     }
 
+    public int calcScore(OthelloBoard Board, char WhoseTurn) {
+        Stones[][] board = super.getBoard();
+        int score = 0;
+        for(int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if(board[i][j].getValue() == WhoseTurn){
+                    score++;
+                }
+            }
+        }
+        return score;
+    }
+
     public int getBlackScore(){
         return blackScore;
     }
