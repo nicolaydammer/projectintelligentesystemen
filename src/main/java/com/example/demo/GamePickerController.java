@@ -96,12 +96,12 @@ public class GamePickerController implements Initializable {
 
         if (gameType.getValue().equals(othello)) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("Othello/fxml/.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("/fxml/Othello.fxml"));
                 fxmlLoader.setController(new OthelloUI());
 
                 Parent root = fxmlLoader.load();
 
-                stage.setScene(new Scene(root, 800, 400));
+                stage.setScene(new Scene(root));
                 stage.show();
 
 

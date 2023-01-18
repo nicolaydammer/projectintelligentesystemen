@@ -5,7 +5,7 @@ import com.example.demo.gameloop.GameLoop;
 
 public class OthelloGameLoop extends GameLoop {
 
-    private final OController controller = new OController();
+    private final OthelloController controller = new OthelloController();
 
     public OthelloGameLoop(ClientConnectionController connection) {
         super(connection);

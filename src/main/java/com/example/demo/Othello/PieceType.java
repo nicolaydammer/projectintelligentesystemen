@@ -1,0 +1,9 @@
+package com.example.demo.Othello;
+
+public enum PieceType {
+    BLACK(1), WHITE(-1);
+    final int moveDir;
+    PieceType(int moveDir){
+        this.moveDir = moveDir;
+    }
+}
