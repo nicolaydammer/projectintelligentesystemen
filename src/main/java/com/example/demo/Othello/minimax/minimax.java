@@ -1,8 +1,6 @@
 package com.example.demo.Othello.minimax;
 
 import com.example.demo.Othello.OthelloBoard;
-import com.example.demo.TicTacToe.TicTacToeBoard;
-
 import java.util.List;
 
 public class minimax extends OthelloBoard {
@@ -45,6 +43,7 @@ public class minimax extends OthelloBoard {
             x = -1;
             y = -1;
         }
+
          else {
              int bestMove = -99999;
              int bestX = x;
@@ -54,7 +53,7 @@ public class minimax extends OthelloBoard {
                  OthelloBoard tempboard = copyBoard();
 
                  // ToDo:: make a move function
-                 // makeMove(tempboard, x, y, whoseTurn)
+                 setMove(tempboard, x, y, whoseTurn);
                  int val = minimaxValue(tempboard, whoseTurn, opponent, 1);
 
                  if (val > bestMove) {
