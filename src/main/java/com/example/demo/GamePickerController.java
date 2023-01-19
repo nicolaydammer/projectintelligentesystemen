@@ -104,7 +104,6 @@ public class GamePickerController implements Initializable {
                 stage.setScene(new Scene(root));
                 stage.show();
 
-
                 ClientConnectionController connection = new ClientConnectionController();
                 connection.startConnection();
                 if (connection.sendStartData()) {

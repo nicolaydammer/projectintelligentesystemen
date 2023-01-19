@@ -60,16 +60,18 @@ public class OthelloUI implements Initializable {
 
                 if((i == 3 && j == 3) || (i==4 && j==4)){
                     piece = makePiece(PieceType.WHITE, i, j);
+
                 } else if ((i==4 && j==3) || (i==3 && j==4)) {
                     piece = makePiece(PieceType.BLACK, i, j);
                 }
                 if(piece != null) {
                     field.setPiece(piece);
+                    field.getChildren().add(piece);
                     pieceGroup.getChildren().add(piece);
                 }
                 gridPane.add(field, i, j);
                 setupPane(field, i, j);
-                gridPane.setConstraints(field, i, j);
+
             }
         }
     }

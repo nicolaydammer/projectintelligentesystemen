@@ -1,11 +1,14 @@
 package com.example.demo.Othello;
 
+import javafx.fxml.FXML;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import static com.example.demo.Othello.OthelloUI.TILE_SIZE;
 
-public class Tile extends Rectangle {
+public class Tile extends Pane {
+
     private int celNumber;
     private int row;
     private int col;
@@ -21,10 +24,11 @@ public class Tile extends Rectangle {
         j = this.col;
         setWidth(OthelloUI.TILE_SIZE);
         setHeight(OthelloUI.TILE_SIZE);
-        setFill(Color.DARKGREEN);
-        setStroke(Color.BLACK);
-        setStrokeWidth(TILE_SIZE * 0.03);
+//        setFill(Color.BLUE);
+//        setStroke(Color.BLACK);
+//        setStrokeWidth(TILE_SIZE * 0.03);
         relocate(i * OthelloUI.TILE_SIZE, j * OthelloUI.TILE_SIZE);
+
     }
 
     public boolean hasPiece(){
