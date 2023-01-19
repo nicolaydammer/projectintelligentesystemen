@@ -106,27 +106,19 @@ public class GamePickerController implements Initializable {
 
 
                 ClientConnectionController connection = new ClientConnectionController();
-                connection.startConnection();
-                if (connection.sendStartData()) {
-                    OthelloGameLoop gameLoop = new OthelloGameLoop(connection);
 
-                    boolean isRunning = true;
-                    int wait = 100;
-
-                    while (isRunning) {
-                        gameLoop.run();
-                        Thread.sleep(wait);
-                        isRunning = gameLoop.isGameRunning();
+                if (!sharedData.getGamemode().equals("Speler vs Speler")) {
+                    connection.startConnection();
+                    if (!sharedData.isTournementMode()) {
+                        connection.sendStartData();
                     }
-
-                    gameLoop.stop();
-                } else {
-                    System.out.println("Niet mogelijk connectie te maken");
                 }
 
+                OthelloGameLoop gameLoop = new OthelloGameLoop(connection);
+
+                gameLoop.run();
+
             } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
