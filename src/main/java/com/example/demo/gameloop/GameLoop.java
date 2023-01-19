@@ -11,7 +11,7 @@ public abstract class GameLoop {
 
     protected volatile GameLoopStatus loopStatus;
 
-    protected volatile GameStatus gameStatus;
+    protected volatile GameStatus gameStatus = GameStatus.NOT_STARTED;
 
     protected ClientConnectionController connection;
 
@@ -53,42 +53,43 @@ public abstract class GameLoop {
     }
 
     protected void processInput() {
-        try {
-            String response = connection.checkTurn();
-            System.out.println("Response van procesinput: " + response);
-
-            // if the response equels move, the opponent did a move. and now we want to handle this response.
-            if (response.contains("Zet tegenstander:")){
-                gameStatus = GameStatus.OPPONENT_TURN;
-            }
-
-            // If the response is that you can do a move, calculate the move and send it to the server.
-            else if (response.contains("Jij moet een zet doen!")){
-                gameStatus = GameStatus.MY_TURN;
-            }
-
-            else if (response.contains("Je hebt verloren")){
-                gameStatus =GameStatus.LOST;
-            }
-
-            else if (response.equals("Je hebt gewonnen")){
-                gameStatus = GameStatus.WON;
-            }
-            else if (response.equals("Gelijkspel")){
-                gameStatus = GameStatus.DRAW;
-            }
-            else{
-                gameStatus = GameStatus.ERROR;
-            }
-            System.out.println();
-            int lag = new Random().nextInt(200) + 50;
-            Thread.sleep(lag);
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        // todo: this needs to support offline and online mode
+//        try {
+//            String response = connection.checkTurn();
+//            System.out.println("Response van procesinput: " + response);
+//
+//            // if the response equels move, the opponent did a move. and now we want to handle this response.
+//            if (response.contains("Zet tegenstander:")){
+//                gameStatus = GameStatus.OPPONENT_TURN;
+//            }
+//
+//            // If the response is that you can do a move, calculate the move and send it to the server.
+//            else if (response.contains("Jij moet een zet doen!")){
+//                gameStatus = GameStatus.MY_TURN;
+//            }
+//
+//            else if (response.contains("Je hebt verloren")){
+//                gameStatus =GameStatus.LOST;
+//            }
+//
+//            else if (response.equals("Je hebt gewonnen")){
+//                gameStatus = GameStatus.WON;
+//            }
+//            else if (response.equals("Gelijkspel")){
+//                gameStatus = GameStatus.DRAW;
+//            }
+//            else{
+//                gameStatus = GameStatus.ERROR;
+//            }
+//            System.out.println();
+//            int lag = new Random().nextInt(200) + 50;
+//            Thread.sleep(lag);
+//
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     protected abstract void render();
