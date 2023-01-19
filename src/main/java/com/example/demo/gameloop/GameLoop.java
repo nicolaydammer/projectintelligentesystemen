@@ -11,7 +11,7 @@ public abstract class GameLoop {
 
     protected volatile GameLoopStatus loopStatus;
 
-    protected volatile GameStatus gameStatus;
+    protected volatile GameStatus gameStatus = GameStatus.NOT_STARTED;
 
     protected ClientConnectionController connection;
 
