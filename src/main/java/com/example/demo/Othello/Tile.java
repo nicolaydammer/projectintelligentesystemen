@@ -20,8 +20,8 @@ public class Tile extends Pane {
     private Piece piece;
 
     public Tile(int i, int j) {
-        i = this.row;
-        j = this.col;
+        this.row = i;
+        this.col = j;
         setWidth(OthelloUI.TILE_SIZE);
         setHeight(OthelloUI.TILE_SIZE);
 //        setFill(Color.BLUE);
@@ -29,6 +29,22 @@ public class Tile extends Pane {
 //        setStrokeWidth(TILE_SIZE * 0.03);
         relocate(i * OthelloUI.TILE_SIZE, j * OthelloUI.TILE_SIZE);
 
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
+    public void setCol(int col) {
+        this.col = col;
     }
 
     public boolean hasPiece(){

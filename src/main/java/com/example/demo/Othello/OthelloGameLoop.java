@@ -43,6 +43,7 @@ public class OthelloGameLoop extends GameLoop {
                 break;
             default:
                 System.out.println("it went broken");
+                stop();
                 // woopsie something went broken
         }
     }

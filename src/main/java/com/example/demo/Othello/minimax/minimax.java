@@ -15,8 +15,8 @@ public class minimax extends OthelloBoard {
         char opponent = 'B';
         if (whoseTurn == 'B')
             opponent ='W';
-        int myScore = calcScore(board, whoseTurn);
-        int opponentScore = calcScore(board, opponent);
+        int myScore = calcScore(whoseTurn);
+        int opponentScore = calcScore(opponent);
         return (myScore - opponentScore);
     }
 
@@ -36,7 +36,7 @@ public class minimax extends OthelloBoard {
             opponent = 'W';
 
         // Get the list of allowed moves.
-        List move = listOfAllowedMoves(whoseTurn, x, y);
+        List move = listOfAllowedMoves(whoseTurn);
 
         // DOESNT WORK!!
         if (move.get(0).equals(0)) {

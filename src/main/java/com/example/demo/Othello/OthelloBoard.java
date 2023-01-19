@@ -10,8 +10,7 @@ public class OthelloBoard extends Board {
     private char black = 'B';
     private char white = 'W';
 
-    private int whiteScore = 2;
-    private int blackScore = 2;
+    private int score;
 
     private int size = 64;
 
@@ -20,22 +19,8 @@ public class OthelloBoard extends Board {
         setStones();
     }
 
-    public void calcBlackScore() {
+    public int calcScore(char WhoseTurn) {
         Stones[][] board = super.getBoard();
-        int score = 0;
-        for(int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if(board[i][j].getValue() == black){
-                    score++;
-                }
-            }
-        }
-        blackScore = score;
-    }
-
-    public int calcScore(OthelloBoard Board, char WhoseTurn) {
-        Stones[][] board = super.getBoard();
-        int score = 0;
         for(int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 if(board[i][j].getValue() == WhoseTurn){
@@ -44,27 +29,6 @@ public class OthelloBoard extends Board {
             }
         }
         return score;
-    }
-
-    public int getBlackScore(){
-        return blackScore;
-    }
-
-    public int getWhiteScore() {
-        return whiteScore;
-    }
-
-    public void calcWhiteScore() {
-        Stones[][] board = super.getBoard();
-        int score = 0;
-        for(int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if(board[i][j].getValue() == white){
-                    score++;
-                }
-            }
-        }
-        whiteScore = score;
     }
 
     public void setStones() {
@@ -79,16 +43,17 @@ public class OthelloBoard extends Board {
     protected boolean allowedMove(int i, int j, char stone) {
         int index =  getIndex(i, j);
 
-        List move = listOfAllowedMoves(stone, i, j);
+        List<Integer> moves = listOfAllowedMoves(stone);
 
-        if(move.get(0).equals(index)){
-            return true;
+        for (int k = 0; k < moves.size(); k++) {
+            if(moves.get(k) == index ){
+                return true;
+            }
         }
         return false;
     }
 
-    public void setMove(OthelloBoard board, int i, int j, char character)
-    {
+    public void setMove(OthelloBoard board, int i, int j, char character) {
         Stones[][] Board = board.getBoard();
         if(allowedMove(i, j, character))
         for(int x = 0; x<this.size; x++) {
@@ -109,67 +74,70 @@ public class OthelloBoard extends Board {
         setStones();
     }
 
-    public List listOfAllowedMoves(char stoneChar, int i, int j) { // needs your character ('B' or 'W')
+    public List<Integer> listOfAllowedMoves(char stoneChar) { // needs your character ('B' or 'W')
         Stones[][] board = super.getBoard();
-        List move = new ArrayList<>();
+        List<Integer> moves = new ArrayList<>();
 
-//        for(int i = 0; i < board.length; i++) {
-//            for(int j = 0; j < board[i].length; j++) {
-//                List possibleMove = new ArrayList<>();
-//                //check surrouding when i = 1, j = 2
+        for(int i = 0; i < board.length; i++) {
+            for(int j = 0; j < board[i].length; j++) {
                 if (checkEmptyStone(board[i][j])) {
-                    if(checkSurroundingIsEmpty(i, j, board)) {}
-                    else{
-                        if(checkSurroundingIsMe(i, j, board, stoneChar)) {}
-                        else {
-                            move.add(getIndex(i, j));
-                            List leftSide = makeBracket(i, j - 1, 0, -1, stoneChar, board);
-                            if (!leftSide.isEmpty()) {
-                                move.add(leftSide);
-                            }
-                            List rightSide = makeBracket(i, j + 1, 0, 1, stoneChar,board);
-                            if (!rightSide.isEmpty()) {
-                                move.add(leftSide);
-                            }
-                            List upSide = makeBracket(i - 1, j, -1, 0, stoneChar, board);
-                            if (!upSide.isEmpty()) {
-                                move.add(leftSide);
-                            }
-                            List downSide = makeBracket(i + 1, j, 1, 0, stoneChar, board);
-                            if (!downSide.isEmpty()) {
-                                move.add(leftSide);
-                            }
-                            List rightUpDiagonal = makeBracket(i - 1, j + 1, -1, 1, stoneChar, board);
-                            if (!rightUpDiagonal.isEmpty()) {
-                                move.add(leftSide);
-                            }
-                            List rightDownDiagonal = makeBracket(i + 1, j + 1, 1, 1, stoneChar, board);
-                            if (!rightDownDiagonal.isEmpty()) {
-                                move.add(leftSide);
-                            }
-                            List leftDownDiagonal = makeBracket(i + 1, j - 1, 1, -1, stoneChar, board);
-                            if (!leftDownDiagonal.isEmpty()) {
-                                move.add(leftSide);
-                            }
-                            List leftUpDiagonal = makeBracket(i - 1, j - 1, -1, -1, stoneChar, board);
-                            if (!leftUpDiagonal.isEmpty()) {
-                                move.add(leftSide);
-                            }
-                            if (!move.isEmpty()) {
-                                return null;
+                    if(!checkSurroundingIsEmpty(i, j, board)) {
+                        if(!giveBracketForPosition(i, j, stoneChar, board).isEmpty()){
+                            if(checkSurroundingHasOpponent(i, j, board, stoneChar)) {
+                                moves.add(getIndex(i, j));
                             }
                         }
                     }
                 }
-//            }
-//        }
-        return move;
+            }
+        }
+        return moves;
+    }
+
+    private List giveBracketForPosition(int i, int j, char stoneChar, Stones[][] board){
+        List bracketPosition = new ArrayList<>();
+        List leftSide = makeBracket(i, j - 1, 0, -1, stoneChar, board);
+        if (!leftSide.isEmpty()) {
+            bracketPosition.add(leftSide);
+        }
+        List rightSide = makeBracket(i, j + 1, 0, 1, stoneChar,board);
+        if (!rightSide.isEmpty()) {
+            bracketPosition.add(leftSide);
+        }
+        List upSide = makeBracket(i - 1, j, -1, 0, stoneChar, board);
+        if (!upSide.isEmpty()) {
+            bracketPosition.add(leftSide);
+        }
+        List downSide = makeBracket(i + 1, j, 1, 0, stoneChar, board);
+        if (!downSide.isEmpty()) {
+            bracketPosition.add(leftSide);
+        }
+        List rightUpDiagonal = makeBracket(i - 1, j + 1, -1, 1, stoneChar, board);
+        if (!rightUpDiagonal.isEmpty()) {
+            bracketPosition.add(leftSide);
+        }
+        List rightDownDiagonal = makeBracket(i + 1, j + 1, 1, 1, stoneChar, board);
+        if (!rightDownDiagonal.isEmpty()) {
+            bracketPosition.add(leftSide);
+        }
+        List leftDownDiagonal = makeBracket(i + 1, j - 1, 1, -1, stoneChar, board);
+        if (!leftDownDiagonal.isEmpty()) {
+            bracketPosition.add(leftSide);
+        }
+        List leftUpDiagonal = makeBracket(i - 1, j - 1, -1, -1, stoneChar, board);
+        if (!leftUpDiagonal.isEmpty()) {
+            bracketPosition.add(leftSide);
+        }
+        if (!bracketPosition.isEmpty()) {
+            return null;
+        }
+        return bracketPosition;
     }
 
 
     private List makeBracket(int i, int j, int iNext, int jNext, char stoneChar, Stones[][] board) {
         List bracket = new ArrayList<>();
-        while(isOnBoard(i, j) &! checkStoneIsMe(board[i][j], stoneChar) &! checkEmptyStone(board[i][j])){
+        while(isOnBoard(i, j) &! checkStoneIsOpponent(board[i][j], stoneChar) &! checkEmptyStone(board[i][j])){
             bracket.add(getIndex(i, j));
             i = i + iNext;
             j = j + jNext;
@@ -185,53 +153,54 @@ public class OthelloBoard extends Board {
 
 
     public boolean isOnBoard(int i, int j){
-        if(i >= 8 || i<0 || j >= 8 || j<0){
+        if(i > 7 || i<0 || j > 7 || j<0){
             return false;
         }
         return true;
     }
 
-    public boolean checkStoneIsMe(Stones stone, char me){
+    public boolean checkStoneIsOpponent(Stones stone, char me){
         if(stone.getValue() == me){
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkSurroundingHasOpponent(int i, int j, Stones[][] board, char me) {
+        //northeast
+        if(!checkEmptyStone(board[i+1][j+1]) && (isOnBoard(i+1, j+1) && checkStoneIsOpponent(board[i+1][j+1], me))){
+            return true;
+        }
+        //east
+        if(!checkEmptyStone(board[i][j+1]) && (isOnBoard(i, j+1) && checkStoneIsOpponent(board[i][j+1], me))){
+            return true;
+        }
+
+        //north
+        if(!checkEmptyStone(board[i+1][j]) && (isOnBoard(i+1, j) && checkStoneIsOpponent(board[i+1][j], me))){
+            return true;
+        }
+        //northwest
+        if(!checkEmptyStone(board[i+1][j-1]) && (isOnBoard(i+1, j-1) && checkStoneIsOpponent(board[i+1][j-1], me))){
+            return true;
+        }
+        //west
+        if(!checkEmptyStone(board[i][j-1]) && (isOnBoard(i, j-1) && checkStoneIsOpponent(board[i][j-1], me))){
+            return true;
+        }
+        //southwest
+        if(!checkEmptyStone(board[i-1][j-1]) && (isOnBoard(i-1, j-1) && checkStoneIsOpponent(board[i-1][j-1], me))){
+            return true;
+        }
+        //south
+        if(!checkEmptyStone(board[i-1][j]) && (isOnBoard(i-1, j) && checkStoneIsOpponent(board[i-1][j], me))){
+            return true;
+        }
+        //southeast
+        if(!checkEmptyStone(board[i-1][j+1]) && (isOnBoard(i-1, j+1) && checkStoneIsOpponent(board[i-1][j+1], me))){
             return true;
         }
         return false;
-    }
-
-    private boolean checkSurroundingIsMe(int i, int j, Stones[][] board, char me) {
-        //northeast
-        if(isOnBoard(i+1, j+1) &! checkStoneIsMe(board[i+1][j+1], me)){
-            return false;
-        }
-        //east
-        if(isOnBoard(i, j+1) &! checkStoneIsMe(board[i][j+1], me)){
-            return false;
-        }
-        //north
-        if(isOnBoard(i+1, j) &! checkStoneIsMe(board[i+1][j], me)){
-            return false;
-        }
-        //northwest
-        if(isOnBoard(i+1, j-1) &! checkStoneIsMe(board[i+1][j-1], me)){
-            return false;
-        }
-        //west
-        if(isOnBoard(i, j-1) &! checkStoneIsMe(board[i][j-1], me)){
-            return false;
-        }
-        //southwest
-        if(isOnBoard(i-1, j-1) &! checkStoneIsMe(board[i-1][j-1], me)){
-            return false;
-        }
-        //south
-        if(isOnBoard(i-1, j) &! checkStoneIsMe(board[i-1][j], me)){
-            return false;
-        }
-        //southeast
-        if(isOnBoard(i-1, j+1) &! checkStoneIsMe(board[i-1][j+1], me)){
-            return false;
-        }
-        return true;
     }
 
     public boolean checkEmptyStone(Stones stone){

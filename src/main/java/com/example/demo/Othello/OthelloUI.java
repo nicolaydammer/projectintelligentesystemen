@@ -69,6 +69,7 @@ public class OthelloUI implements Initializable {
                     field.getChildren().add(piece);
                     pieceGroup.getChildren().add(piece);
                 }
+                legalMove(field, i , j);
                 gridPane.add(field, i, j);
                 setupPane(field, i, j);
 
@@ -83,11 +84,11 @@ public class OthelloUI implements Initializable {
 
     private void setupPane(Tile field, int i, int j) {
         field.setOnMouseClicked(mouseEvent -> {
+            setPlayerSymbol(field);
             setBlackScore();
             setWhiteScore();
-            legalMove(field, i , j);
-            setPlayerSymbol(field);
             field.setDisable(true);
+            legalMove(field, i , j);
         });
     }
 
@@ -96,15 +97,13 @@ public class OthelloUI implements Initializable {
         if (playerTurn % 2 == 0) {
             if (othelloBoard.allowedMove(i, j, 'B')) {
                 field.setGreyState();
-                Circle circle = drawCircle(Color.GREY);
-                //field.getChildren().add(circle);
+                field.setStyle("-fx-background-color: Grey;");
                 field.setDisable(false);
             }
         }else{
             if(othelloBoard.allowedMove(i, j, 'W')) {
                 field.setGreyState();
-                Circle circle = drawCircle(Color.GREY);
-                //field.getChildren().add(circle);
+                field.setStyle("-fx-background-color: Grey;");
                 field.setDisable(false);
             }
         }
@@ -116,17 +115,6 @@ public class OthelloUI implements Initializable {
         createBord(othelloBoard);
      }
 
-//    public void resetPane(Cel field) {
-//        //todo reset all panes except initial stones
-//        field.setDisable(false);
-//        //field.setText("");
-//    }
-
-    public Circle drawCircle(Color color){
-        Circle circle = new Circle(50, color);
-        return circle;
-    }
-
     public void setWhiteScore(){
         scoreWhiteText.setText(Integer.toString(getWhiteScore()));
     }
@@ -135,27 +123,36 @@ public class OthelloUI implements Initializable {
         scoreBlackText.setText(Integer.toString(getBlackScore()));
     }
     public int getWhiteScore(){
-        return othelloBoard.getWhiteScore();
+        return othelloBoard.calcScore('W');
     }
     public int getBlackScore(){
-        return othelloBoard.getBlackScore();
+        return othelloBoard.calcScore('B');
     }
 
     public void setPlayerSymbol(Tile field) {
-        //todo: turn other stones player's color
-        //todo: update backend board
         if (playerTurn % 2 == 0) {
-            //todo: current circle is grey --> change color
             field.setBlackState();
-            Circle circle = drawCircle(Color.BLACK);
-            //field.getChildren().add(circle);
+            if(field.hasPiece()){
+                if(!field.getPiece().equals(PieceType.BLACK)){
+                    field.getPiece().setType(PieceType.BLACK);
+                }
+            }else{
+                Piece piece = makePiece(PieceType.BLACK, field.getRow(), field.getCol());
+                field.getChildren().add(piece);
+            }
             playerTurn = 1;
             othelloBoard.updateBoard(field.getCelNumber(),field.getState());
 
         } else {
             field.setWhiteState();
-            Circle circle =  drawCircle(Color.WHITE);
-            //field.getChildren().add(circle);
+            if(field.hasPiece()){
+                if(!field.getPiece().equals(PieceType.WHITE)){
+                    field.getPiece().setType(PieceType.WHITE);
+                }
+            }else{
+                Piece piece = makePiece(PieceType.WHITE, field.getRow(), field.getCol());
+                field.getChildren().add(piece);
+            }
             playerTurn = 0;
             othelloBoard.updateBoard(field.getCelNumber(),field.getState());
         }
