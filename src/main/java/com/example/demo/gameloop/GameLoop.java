@@ -54,7 +54,8 @@ public abstract class GameLoop {
 
     protected void processInput() {
         // todo: this needs to support offline and online mode
-//        try {
+        System.out.println("processing input");
+        try {
 //            String response = connection.checkTurn();
 //            System.out.println("Response van procesinput: " + response);
 //
@@ -69,7 +70,7 @@ public abstract class GameLoop {
 //            }
 //
 //            else if (response.contains("Je hebt verloren")){
-//                gameStatus =GameStatus.LOST;
+//                gameStatus = GameStatus.LOST;
 //            }
 //
 //            else if (response.equals("Je hebt gewonnen")){
@@ -82,14 +83,16 @@ public abstract class GameLoop {
 //                gameStatus = GameStatus.ERROR;
 //            }
 //            System.out.println();
-//            int lag = new Random().nextInt(200) + 50;
-//            Thread.sleep(lag);
-//
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        } catch (InterruptedException e) {
+            int lag = new Random().nextInt(200) + 50;
+            Thread.sleep(lag);
+
+        }
+//        catch (IOException e) {
 //            throw new RuntimeException(e);
 //        }
+        catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     protected abstract void render();

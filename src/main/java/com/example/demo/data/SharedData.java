@@ -1,5 +1,7 @@
 package com.example.demo.data;
 
+import com.example.demo.Othello.OthelloUI;
+
 //singleton class
 public final class SharedData {
     private final static SharedData INSTANCE = new SharedData();
@@ -10,6 +12,16 @@ public final class SharedData {
 
     private String gamemode;
     private boolean tournementMode;
+
+    private OthelloUI UIcontroller;
+
+    public OthelloUI getUIcontroller() {
+        return UIcontroller;
+    }
+
+    public void setUIcontroller(OthelloUI UIcontroller) {
+        this.UIcontroller = UIcontroller;
+    }
 
     private SharedData() {}
 
