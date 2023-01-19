@@ -13,6 +13,8 @@ public class OthelloBoard extends Board {
     private int whiteScore = 2;
     private int blackScore = 2;
 
+    private int size = 64;
+
     public OthelloBoard() {
         super(8);
         setStones();
@@ -29,6 +31,19 @@ public class OthelloBoard extends Board {
             }
         }
         blackScore = score;
+    }
+
+    public int calcScore(OthelloBoard Board, char WhoseTurn) {
+        Stones[][] board = super.getBoard();
+        int score = 0;
+        for(int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if(board[i][j].getValue() == WhoseTurn){
+                    score++;
+                }
+            }
+        }
+        return score;
     }
 
     public int getBlackScore(){
@@ -70,6 +85,23 @@ public class OthelloBoard extends Board {
             return true;
         }
         return false;
+    }
+
+    public void setMove(OthelloBoard board, int i, int j, char character)
+    {
+        Stones[][] Board = board.getBoard();
+        if(allowedMove(i, j, character))
+        for(int x = 0; x<this.size; x++) {
+            if(i==x)
+            {
+                // ???
+                for (int y = 0; y < this.size;y++){
+                    if(j == y){
+                        Board[i][j].setValue(character);
+                    }
+                }
+            }
+        }
     }
 
     public void resetBoard() {
