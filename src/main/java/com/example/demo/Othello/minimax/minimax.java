@@ -1,115 +1,77 @@
 package com.example.demo.Othello.minimax;
 
 import com.example.demo.Othello.OthelloBoard;
+
 import java.util.List;
 
-public class minimax extends OthelloBoard {
+public class minimax {
 
-    protected  OthelloBoard board;
+    // Maxixum depth.
+    protected int maxDepth = 5;
 
-    public minimax(OthelloBoard board) {
-        this.board = new OthelloBoard();
-    }
-
-    protected int heuristic(OthelloBoard board, char whoseTurn) {
-        char opponent = 'B';
-        if (whoseTurn == 'B')
-            opponent ='W';
-        int myScore = calcScore(board, whoseTurn);
-        int opponentScore = calcScore(board, opponent);
-        return (myScore - opponentScore);
-    }
-
-    protected OthelloBoard copyBoard() {
-        OthelloBoard tempBoard = this.board;
+    protected OthelloBoard copyBoard(OthelloBoard board) {
+        OthelloBoard tempBoard = board;
         return tempBoard;
     }
 
-    protected void minimaxDecision(char whoseTurn, int x, int y) {
+    protected int minimaxDecision(char whoseTurn, OthelloBoard board) {
 
-        // PSEUDO VAR
-        int numMoves = 5;
+        // Set bestMove and bestScore.
+        int bestMove = -99999;
+        int bestScore = Integer.MIN_VALUE;
 
-        // Check who is your opponent.
-        char opponent = 'B';
-        if (whoseTurn == 'B')
-            opponent = 'W';
+        // Initialise a new temp board.
+        OthelloBoard tempboard = copyBoard(board);
 
-        // Get the list of allowed moves.
-        List move = listOfAllowedMoves(whoseTurn, x, y);
+        // For every possible move, set the move and return which is best.
+        for (int move: tempboard.listOfAllowedMoves(whoseTurn)) {
 
-        // DOESNT WORK!!
-        if (move.get(0).equals(0)) {
-            x = -1;
-            y = -1;
-        }
+            //setMove(tempboard, x, y, whoseTurn);
+            tempboard.setMove(move, whoseTurn);
+            int searchPly = 1;
 
-         else {
-             int bestMove = -99999;
-             int bestX = x;
-             int bestY = y;
+            // Get the minMax value.
+            int val = minimaxValue(tempboard, whoseTurn, false,  searchPly);
 
-             for (int i = 0; i < numMoves; i++) {
-                 OthelloBoard tempboard = copyBoard();
-
-                 // ToDo:: make a move function
-                 setMove(tempboard, x, y, whoseTurn);
-                 int val = minimaxValue(tempboard, whoseTurn, opponent, 1);
-
-                 if (val > bestMove) {
-                     bestMove = val;
-                     bestX = x;
-                     bestY = y;
-                 }
-
-                 y = bestY;
-                 x = bestX;
-             }
+            if (val > bestMove) {
+                bestMove = val;
+            }
 
         }
+
+        return bestMove;
 
     }
 
-    protected int minimaxValue(OthelloBoard board, char originalTurn, char currentTurn, int searchPly) {
-        if (searchPly == 5) {
-            return heuristic(board, originalTurn);
-        }
+    protected int minimaxValue(OthelloBoard board, char whoseTurn, boolean maxingTime, int searchPly) {
 
-        char opponent = 'B';
-        if (currentTurn == 'B')
-            opponent = 'W';
+        // Geet the bestScore.
+        int bestScore = board.getScore(whoseTurn);
+        if(searchPly == maxDepth) return bestScore;
 
-        // PSEUDO VARS
-        int numMoves = 5;
-        int x = 0;
+        // Initialise variables.
+        bestScore = Integer.MAX_VALUE;
+        OthelloBoard tempBoard = copyBoard(board);
 
-        if (numMoves == 0) {
-            return minimaxValue(board, originalTurn, opponent, searchPly +1);
-        } else {
-
-            int bestMove = -99999; // for finding max
-            if (originalTurn != currentTurn)
-                bestMove = 99999; // finding min
-
-            for (int i = 0; i < numMoves; i++) {
-                OthelloBoard tempboard = copyBoard();
-
+        // If we need to max, to the max!
+        if(maxingTime) {
+            for(int move: board.listOfAllowedMoves(whoseTurn)) {
                 // ToDo:: make a move function
-                // makeMove(tempboard, x, y, whoseTurn)
-                int val = minimaxValue(tempboard, originalTurn, opponent, 1);
-
-                if (originalTurn == currentTurn) {
-                    if (val > bestMove) {
-                        bestMove = val;
-                    } else {
-                        if (val < bestMove) {
-                            bestMove = val;
-                        }
-                    }
-                }
-                return bestMove;
+                tempBoard.setMove(move, whoseTurn);
+                int val = minimaxValue(tempBoard, whoseTurn, true, searchPly + 1);
+                bestScore = Math.max(val, bestScore);
+            }
+            // Otherwise min it!
+        } else {
+            for(int move: board.listOfAllowedMoves(whoseTurn)) {
+                // ToDo:: make a move function
+                tempBoard.setMove(move, whoseTurn);
+                int val = minimaxValue(tempBoard, whoseTurn, true, searchPly + 1);
+                bestScore = Math.min(val, bestScore);
             }
         }
-        return -1; // should never get here.
+
+        // Aaaand return the besrt score.
+        return bestScore;
     }
 }
