@@ -6,14 +6,25 @@ import java.util.List;
 
 public class minimax {
 
-    // Maxixum depth.
+    // Maxixum depth. //ToDo:: Perhaps include this in SharedData so we can let the user choose the max depth?
     protected int maxDepth = 5;
 
+    /**
+     * Copies the board, so we dont actually do this on an active playboard.
+     * @param board
+     * @return OthelloBoard
+     */
     protected OthelloBoard copyBoard(OthelloBoard board) {
         OthelloBoard tempBoard = board;
         return tempBoard;
     }
 
+    /**
+     * Function that returns the best possible move, by help of a MinMax function.
+     * @param whoseTurn = Black or White
+     * @param board = The current board.
+     * @return the best possible move.
+     */
     protected int minimaxDecision(char whoseTurn, OthelloBoard board) {
 
         // Set bestMove and bestScore.
@@ -23,8 +34,11 @@ public class minimax {
         // Initialise a new temp board.
         OthelloBoard tempboard = copyBoard(board);
 
+        //Todo:: Move needs to contain [allowedMove, allowedMove, allowedMove];
+        int[] move = board.listOfAllowedMoves(whoseTurn);
+
         // For every possible move, set the move and return which is best.
-        for (int move: tempboard.listOfAllowedMoves(whoseTurn)) {
+        for(int i = 0; i < move.length; i++) {
 
             //setMove(tempboard, x, y, whoseTurn);
             tempboard.setMove(move, whoseTurn);
@@ -43,6 +57,14 @@ public class minimax {
 
     }
 
+    /**
+     * Function that returns the best score calculated by the MinMax Algorithm.
+     * @param board = the board
+     * @param whoseTurn = Black or WHite
+     * @param maxingTime = If we need to find the MAX value
+     * @param searchPly = How deep we are currently
+     * @return the best possible score.
+     */
     protected int minimaxValue(OthelloBoard board, char whoseTurn, boolean maxingTime, int searchPly) {
 
         // Geet the bestScore.
@@ -53,21 +75,28 @@ public class minimax {
         bestScore = Integer.MAX_VALUE;
         OthelloBoard tempBoard = copyBoard(board);
 
+        // ToDo:: Move needs to contain [allowedMove, allowedMove, allowedMove];
+        int[] move = board.listOfAllowedMoves(whoseTurn);
+
+        // If there are no allowed moves, return the original best turn.
+        // ToDo:: If board.listOfAllowedMoves contain no allowed moves, the the first element to moves[0] == -1.
+        if (move[0] == -1) return bestScore;
+
         // If we need to max, to the max!
         if(maxingTime) {
-            for(int move: board.listOfAllowedMoves(whoseTurn)) {
-                // ToDo:: make a move function
-                tempBoard.setMove(move, whoseTurn);
+            for(int i = 0; i < move.length; i++) {
+                // ToDo:: make a setMove function: move = move[i] == allowedMove], char whoseTurn == X/O (Black/White)
+                tempBoard.setMove(move[i], whoseTurn);
                 int val = minimaxValue(tempBoard, whoseTurn, true, searchPly + 1);
                 bestScore = Math.max(val, bestScore);
             }
             // Otherwise min it!
         } else {
-            for(int move: board.listOfAllowedMoves(whoseTurn)) {
-                // ToDo:: make a move function
-                tempBoard.setMove(move, whoseTurn);
+            for(int i = 0; i < move.length; i++) {
+                // ToDo:: make a setMove function: move = move[i] == allowedMove], char whoseTurn == X/O (Black/White)
+                tempBoard.setMove(move[i], whoseTurn);
                 int val = minimaxValue(tempBoard, whoseTurn, true, searchPly + 1);
-                bestScore = Math.min(val, bestScore);
+                bestScore = Math.max(val, bestScore);
             }
         }
 
