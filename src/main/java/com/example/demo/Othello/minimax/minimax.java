@@ -40,13 +40,14 @@ public class minimax {
         // For every possible move, set the move and return which is best.
         for(int i = 0; i < move.length; i++) {
 
-            //setMove(tempboard, x, y, whoseTurn);
-            tempboard.setMove(move, whoseTurn);
+            // Place move on this temp board.
+            tempboard.setMove(move[i], whoseTurn);
             int searchPly = 1;
 
             // Get the minMax value.
             int val = minimaxValue(tempboard, whoseTurn, false,  searchPly);
 
+            // If this value is higher than the best move, this new value is our new bestMove.
             if (val > bestMove) {
                 bestMove = val;
             }
@@ -85,22 +86,30 @@ public class minimax {
         // If we need to max, to the max!
         if(maxingTime) {
             for(int i = 0; i < move.length; i++) {
-                // ToDo:: make a setMove function: move = move[i] == allowedMove], char whoseTurn == X/O (Black/White)
+                // set the move on our temporarily board.
                 tempBoard.setMove(move[i], whoseTurn);
-                int val = minimaxValue(tempBoard, whoseTurn, true, searchPly + 1);
+
+                // now we need to find the min value
+                int val = minimaxValue(tempBoard, whoseTurn, false, searchPly + 1);
+
+                // Get the best maximum outcome. That is our new best score.
                 bestScore = Math.max(val, bestScore);
             }
             // Otherwise min it!
         } else {
             for(int i = 0; i < move.length; i++) {
-                // ToDo:: make a setMove function: move = move[i] == allowedMove], char whoseTurn == X/O (Black/White)
+                // Set the move on our temporarily board
                 tempBoard.setMove(move[i], whoseTurn);
+
+                // Find the new value on the maximum outcome,
                 int val = minimaxValue(tempBoard, whoseTurn, true, searchPly + 1);
-                bestScore = Math.max(val, bestScore);
+
+                // Get the best minimum outcome, that is our new best score.
+                bestScore = Math.min(val, bestScore);
             }
         }
 
-        // Aaaand return the besrt score.
+        // Aaaand return the best score.
         return bestScore;
     }
 }

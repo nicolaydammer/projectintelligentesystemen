@@ -79,19 +79,20 @@ public class OthelloBoard extends Board {
         return false;
     }
 
-    public void setMove(OthelloBoard board, int i, int j, char character)
-    {
-        Stones[][] Board = board.getBoard();
-        if(!allowedMove(i, j, character))
-        for(int x = 0; x<this.size; x++) {
-            if(i==x)
-            {
-                // ???
-                for (int y = 0; y < this.size;y++){
-                    if(j == y){
-                        Board[i][j].setValue(character);
-                    }
-                }
+
+    /**
+     * Sets a move on the board.
+     * @param move = int
+     * @param whoseTurn = the character (black/white)
+     */
+    public void setMove(int move, char whoseTurn) {
+        // get the board.
+        Stones[][] board = this.getBoard();
+
+        // Get the position of the move. if index  (i * j) == move, place the character.
+        for (int i  = 0; i < this.size; i++) {
+            for (int j = 0; j < this.size; j++) {
+                if ( i*j == move) board[i][j].setValue(whoseTurn); return;
             }
         }
     }
