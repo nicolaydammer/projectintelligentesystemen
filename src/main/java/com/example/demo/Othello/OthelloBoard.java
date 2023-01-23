@@ -90,8 +90,8 @@ public class OthelloBoard extends Board {
         Stones[][] board = this.getBoard();
 
         // Get the position of the move. if index  (i * j) == move, place the character.
-        for (int i  = 0; i < this.size; i++) {
-            for (int j = 0; j < this.size; j++) {
+        for (int i  = 0; i < this.size / 8; i++) {
+            for (int j = 0; j < this.size / 8; j++) {
                 if ( i*j == move) { board[i][j].setValue(whoseTurn); return; }
             }
         }
