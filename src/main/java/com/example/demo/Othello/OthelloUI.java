@@ -54,7 +54,7 @@ public class OthelloUI implements Initializable {
 
                 tileGroup.getChildren().add(field);
                 field.setFocusTraversable(false);
-                field.setDisable(true);
+                //field.setDisable(true);
 
                 Piece piece = null;
 
@@ -69,7 +69,7 @@ public class OthelloUI implements Initializable {
                     field.getChildren().add(piece);
                     pieceGroup.getChildren().add(piece);
                 }
-                legalMove(field, i , j);
+
                 gridPane.add(field, i, j);
                 setupPane(field, i, j);
 
